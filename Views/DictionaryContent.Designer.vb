@@ -26,6 +26,7 @@ Partial Class DictionaryContent
     Me.ChinieseLabel = New System.Windows.Forms.Label()
     Me.ChinieseText = New System.Windows.Forms.Label()
     Me.PictureBox1 = New System.Windows.Forms.PictureBox()
+        Me.EditDefinitionBtn = New System.Windows.Forms.Button()
         CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -47,9 +48,8 @@ Partial Class DictionaryContent
         Me.ChinieseText.ForeColor = System.Drawing.Color.White
         Me.ChinieseText.Location = New System.Drawing.Point(36, 91)
         Me.ChinieseText.Name = "ChinieseText"
-        Me.ChinieseText.Size = New System.Drawing.Size(147, 397)
+        Me.ChinieseText.Size = New System.Drawing.Size(246, 397)
         Me.ChinieseText.TabIndex = 1
-        Me.ChinieseText.Text = "占位符"
         '
         'PictureBox1
         '
@@ -60,12 +60,29 @@ Partial Class DictionaryContent
         Me.PictureBox1.TabIndex = 0
         Me.PictureBox1.TabStop = False
         '
+        'EditDefinitionBtn
+        '
+        Me.EditDefinitionBtn.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.EditDefinitionBtn.Cursor = System.Windows.Forms.Cursors.Hand
+        Me.EditDefinitionBtn.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(CType(CType(47, Byte), Integer), CType(CType(53, Byte), Integer), CType(CType(66, Byte), Integer))
+        Me.EditDefinitionBtn.FlatAppearance.BorderSize = 0
+        Me.EditDefinitionBtn.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(CType(CType(47, Byte), Integer), CType(CType(53, Byte), Integer), CType(CType(66, Byte), Integer))
+        Me.EditDefinitionBtn.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(CType(CType(47, Byte), Integer), CType(CType(53, Byte), Integer), CType(CType(66, Byte), Integer))
+        Me.EditDefinitionBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.EditDefinitionBtn.Image = CType(resources.GetObject("EditDefinitionBtn.Image"), System.Drawing.Image)
+        Me.EditDefinitionBtn.Location = New System.Drawing.Point(239, 40)
+        Me.EditDefinitionBtn.Name = "EditDefinitionBtn"
+        Me.EditDefinitionBtn.Size = New System.Drawing.Size(20, 20)
+        Me.EditDefinitionBtn.TabIndex = 2
+        Me.EditDefinitionBtn.UseVisualStyleBackColor = True
+        '
         'DictionaryContent
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 15.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.FromArgb(CType(CType(47, Byte), Integer), CType(CType(53, Byte), Integer), CType(CType(66, Byte), Integer))
         Me.ClientSize = New System.Drawing.Size(324, 568)
+        Me.Controls.Add(Me.EditDefinitionBtn)
         Me.Controls.Add(Me.PictureBox1)
         Me.Controls.Add(Me.ChinieseText)
         Me.Controls.Add(Me.ChinieseLabel)
@@ -82,4 +99,5 @@ Partial Class DictionaryContent
     Friend WithEvents ChinieseLabel As Label
     Friend WithEvents ChinieseText As Label
     Friend WithEvents PictureBox1 As PictureBox
+    Friend WithEvents EditDefinitionBtn As Button
 End Class
