@@ -516,7 +516,12 @@
     Dim files As String() = e.Data.GetData(DataFormats.FileDrop)
     If files.Length = 1 Then
       Dim file As String = files(0)
-      Await ImportBook(, file)
+      file = file.ToLower()
+      If file.EndsWith(".txt") Then
+        Await ImportBook(, file)
+      Else
+        ShowMessage("This is not a text file")
+      End If
     Else
       ShowMessage("Only one file can be droped here")
     End If
