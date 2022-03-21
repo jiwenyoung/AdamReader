@@ -63,7 +63,7 @@
   End Function
 
   Public Shared Async Function Modify(word As String, definition As String) As Task(Of Boolean)
-    word = word.ToLower()
+    word = word.ToLower().Trim()
     Dim DB As Database = AdamReader.DB
     Dim fileds As New List(Of String) From {
       "ROWID"
@@ -73,5 +73,16 @@
     rowID = CInt(rowID)
     Debug.WriteLine(rowID)
     Return Await DB.Update("Words", "Chiniese", definition, rowID)
+  End Function
+
+  Public Shared Async Function Has(word As String) As Task(Of Boolean)
+    word = word.ToLower().Trim()
+    Dim DB As Database = AdamReader.DB
+    Dim count As Integer = Await DB.Count("Words", "Word", word)
+    If count > 0 Then
+      Return True
+    Else
+      Return False
+    End If
   End Function
 End Class

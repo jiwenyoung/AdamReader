@@ -62,10 +62,29 @@
     Dim y As Integer = (Me.Message.Height - Me.MessageText.Height) / 2
     Me.MessageText.Location = New Point(x, y)
 
+    Dim MoveIn = Async Function(velocity As Integer) As Task(Of Boolean)
+                   While True
+                     Dim PositionX As Integer = Me.Message.Location.X + 10
+                     Dim PositionY As Integer = Me.Message.Location.Y
+                     If PositionX <= 0 Then
+                       Me.Message.Location = New Point(PositionX, PositionY)
+                       Await Task.Delay(velocity)
+                     Else
+                       Exit While
+                     End If
+                   End While
+                   Return True
+                 End Function
+
     ' Message Box Show
     Me.Message.Show()
+    Await MoveIn(2)
     Await Task.Delay(4000)
     Me.Message.Hide()
+
+    Dim ResetX As Integer = 0 - Me.Message.Width
+    Dim ResetY As Integer = Me.Message.Location.Y
+    Me.Message.Location = New Point(ResetX, ResetY)
   End Sub
 
   Public Sub HighLightSelected()
@@ -133,6 +152,56 @@
     Me.TextBox.Select(currentCursor, 1)
   End Sub
 
+  Private Async Function ImportBook(Optional name As String = "", Optional filename As String = "") As Task
+
+    If name = "" Then
+      ' Pompt to ask the name of book and pick its file
+      Dim dialogResult As DialogResult = InputBookNameDialog.ShowDialog()
+      If dialogResult = DialogResult.OK Then
+        name = InputBookNameDialog.BookName
+      End If
+      InputBookNameDialog.Hide()
+      InputBookNameDialog.Dispose()
+    End If
+
+    If filename = "" Then
+      filename = PickFile("txt files (*.txt)|*.txt|All files (*.*)|*.*")
+    End If
+
+    If filename <> "NO" Then
+      ' Show Prograss Bar
+      PrograssBar.Prograss.Maximum = 3
+      PrograssBar.Prograss.Minimum = 0
+      PrograssBar.Prograss.Value = 0
+      PrograssBar.Show()
+
+      ' Read file content to a String
+      Dim importedBook As New BookFile(filename)
+      Dim content As String = Await importedBook.Read()
+      PrograssBar.Prograss.Increment(1)
+
+      ' Copy to local directory
+      importedBook.BookContent = content
+      importedBook.BookName = name
+      Await importedBook.Write()
+      PrograssBar.Prograss.Increment(1)
+
+      ' Write to database about bookname
+      Dim booksWithSameNameInDB As Integer = Await DB.Count("Books", "BookName", name)
+      If booksWithSameNameInDB = 0 Then
+        Dim freshBook As New Book(name)
+        Await freshBook.Save()
+      End If
+      PrograssBar.Prograss.Increment(1)
+
+      ' Hide Prograss Bar and Switch to booklist in Sidebar
+      SwitchSideBar("booklist")
+      PrograssBar.Hide()
+    End If
+    InputBookNameDialog.Dispose()
+    PrograssBar.Dispose()
+  End Function
+
   Private Sub AdamReader_Load(sender As Object, e As EventArgs) Handles MyBase.Load
     DB = New Database()
     DB.Conntect()
@@ -142,8 +211,11 @@
     Me.TextBox.HideSelection = True
     Me.WindowState = Me.WindowState.Maximized
     Me.BookNameTextBox.Width = Me.Header.Width * （30 / 100）
-    InputBookNameDialog.Height = 200
     MyBase.KeyPreview = True
+    Me.TextBox.Hide()
+    Dim x As Integer = (Me.TextContainer.Width - Me.DragHerePic.Width) / 2
+    Dim y As Integer = (Me.TextContainer.Height - Me.DragHerePic.Height) / 2
+    Me.DragHerePic.Location = New Point(x, y)
     Me.Message.BringToFront()
     SetColor()
   End Sub
@@ -166,50 +238,7 @@
 
   Private Async Sub ImportBookBtn_Click(sender As Object, e As EventArgs) Handles ImportBookBtn.Click
     Try
-      ' Pompt to ask the name of book and pick its file
-      Dim name As String
-      Dim filename As String
-      Dim dialogResult As DialogResult = InputBookNameDialog.ShowDialog()
-      If dialogResult = DialogResult.OK Then
-        name = InputBookNameDialog.BookName
-        InputBookNameDialog.Hide()
-        filename = PickFile("txt files (*.txt)|*.txt|All files (*.*)|*.*")
-        If filename <> "NO" Then
-          ' Show Prograss Bar
-          PrograssBar.Prograss.Maximum = 3
-          PrograssBar.Prograss.Minimum = 0
-          PrograssBar.Prograss.Value = 0
-          PrograssBar.Show()
-
-          ' Read file content to a String
-          Dim importedBook As New BookFile(filename)
-          Dim content As String = Await importedBook.Read()
-          PrograssBar.Prograss.Increment(1)
-
-          ' Copy to local directory
-          importedBook.bookContent = content
-          importedBook.bookName = name
-          Await importedBook.Write()
-          PrograssBar.Prograss.Increment(1)
-
-          ' Write to database about bookname
-          Dim booksWithSameNameInDB As Integer = Await DB.Count("Books", "BookName", name)
-          If booksWithSameNameInDB = 0 Then
-            Dim freshBook As New Book(name)
-            Await freshBook.Save()
-          End If
-          PrograssBar.Prograss.Increment(1)
-
-          ' Hide Prograss Bar and Switch to booklist in Sidebar
-          SwitchSideBar("booklist")
-          PrograssBar.Hide()
-        End If
-        InputBookNameDialog.Dispose()
-        PrograssBar.Dispose()
-      ElseIf dialogResult = DialogResult.Cancel Then
-        InputBookNameDialog.Hide()
-        InputBookNameDialog.Dispose()
-      End If
+      Await ImportBook()
     Catch ex As Exception
       ShowMessage(ex.Message)
     End Try
@@ -282,7 +311,11 @@
                                While symbols.Contains(content.Chars(index)) = False
                                  Dim myChar = content.Chars(index)
                                  word.Insert(0, myChar)
-                                 index -= 1
+                                 If index <> 0 Then
+                                   index -= 1
+                                 Else
+                                   Exit While
+                                 End If
                                End While
 
                                index = charIndex + 1
@@ -322,8 +355,14 @@
             definition = InputWordDefinitionDialog.DefinitionInputBox.Text.Trim()
 
             ' Write the defination into database
-            If Await Dictionary.Add(selectedWord, definition) Then
-              ShowMessage("New word has been added")
+            If Await Dictionary.Has(selectedWord) Then
+              If Await Dictionary.Modify(selectedWord, definition) Then
+                ShowMessage("New word has been modified")
+              End If
+            Else
+              If Await Dictionary.Add(selectedWord, definition) Then
+                ShowMessage("New word has been added")
+              End If
             End If
           End If
         End If
@@ -471,5 +510,19 @@
     Catch ex As Exception
       ShowMessage(ex.Message)
     End Try
+  End Sub
+
+  Private Async Sub TextContainer_DragDrop(sender As Object, e As DragEventArgs) Handles TextContainer.DragDrop
+    Dim files As String() = e.Data.GetData(DataFormats.FileDrop)
+    If files.Length = 1 Then
+      Dim file As String = files(0)
+      Await ImportBook(, file)
+    Else
+      ShowMessage("Only one file can be droped here")
+    End If
+  End Sub
+
+  Private Sub TextContainer_DragEnter(sender As Object, e As DragEventArgs) Handles TextContainer.DragEnter
+    e.Effect = DragDropEffects.All
   End Sub
 End Class

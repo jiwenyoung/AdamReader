@@ -33,6 +33,7 @@ Partial Class AdamReader
         Me.ImportBookBtn = New System.Windows.Forms.Button()
         Me.Body = New System.Windows.Forms.Panel()
         Me.TextContainer = New System.Windows.Forms.Panel()
+        Me.DragHerePic = New System.Windows.Forms.PictureBox()
         Me.TextBox = New System.Windows.Forms.RichTextBox()
         Me.Message = New System.Windows.Forms.Panel()
         Me.MessageText = New System.Windows.Forms.Label()
@@ -48,6 +49,7 @@ Partial Class AdamReader
         Me.SidebarTopBtnBox.SuspendLayout()
         Me.Body.SuspendLayout()
         Me.TextContainer.SuspendLayout()
+        CType(Me.DragHerePic, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Message.SuspendLayout()
         Me.Header.SuspendLayout()
         CType(Me.Logo, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -165,7 +167,9 @@ Partial Class AdamReader
         '
         'TextContainer
         '
+        Me.TextContainer.AllowDrop = True
         Me.TextContainer.BackColor = System.Drawing.Color.FromArgb(CType(CType(87, Byte), Integer), CType(CType(96, Byte), Integer), CType(CType(111, Byte), Integer))
+        Me.TextContainer.Controls.Add(Me.DragHerePic)
         Me.TextContainer.Controls.Add(Me.TextBox)
         Me.TextContainer.Dock = System.Windows.Forms.DockStyle.Fill
         Me.TextContainer.Location = New System.Drawing.Point(0, 50)
@@ -174,17 +178,29 @@ Partial Class AdamReader
         Me.TextContainer.Size = New System.Drawing.Size(684, 579)
         Me.TextContainer.TabIndex = 0
         '
+        'DragHerePic
+        '
+        Me.DragHerePic.Anchor = System.Windows.Forms.AnchorStyles.None
+        Me.DragHerePic.Image = CType(resources.GetObject("DragHerePic.Image"), System.Drawing.Image)
+        Me.DragHerePic.Location = New System.Drawing.Point(178, 240)
+        Me.DragHerePic.Name = "DragHerePic"
+        Me.DragHerePic.Size = New System.Drawing.Size(300, 100)
+        Me.DragHerePic.TabIndex = 0
+        Me.DragHerePic.TabStop = False
+        '
         'TextBox
         '
         Me.TextBox.BackColor = System.Drawing.Color.FromArgb(CType(CType(87, Byte), Integer), CType(CType(96, Byte), Integer), CType(CType(111, Byte), Integer))
         Me.TextBox.BorderStyle = System.Windows.Forms.BorderStyle.None
         Me.TextBox.Cursor = System.Windows.Forms.Cursors.Hand
         Me.TextBox.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.TextBox.EnableAutoDragDrop = True
         Me.TextBox.Font = New System.Drawing.Font("Segoe UI", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point)
         Me.TextBox.ForeColor = System.Drawing.Color.White
         Me.TextBox.Location = New System.Drawing.Point(20, 20)
         Me.TextBox.Margin = New System.Windows.Forms.Padding(0)
         Me.TextBox.Name = "TextBox"
+        Me.TextBox.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical
         Me.TextBox.Size = New System.Drawing.Size(664, 539)
         Me.TextBox.TabIndex = 2
         Me.TextBox.Text = ""
@@ -194,7 +210,7 @@ Partial Class AdamReader
         Me.Message.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.Message.BackColor = System.Drawing.Color.FromArgb(CType(CType(83, Byte), Integer), CType(CType(82, Byte), Integer), CType(CType(237, Byte), Integer))
         Me.Message.Controls.Add(Me.MessageText)
-        Me.Message.Location = New System.Drawing.Point(0, 579)
+        Me.Message.Location = New System.Drawing.Point(-400, 579)
         Me.Message.Name = "Message"
         Me.Message.Size = New System.Drawing.Size(400, 50)
         Me.Message.TabIndex = 0
@@ -350,6 +366,7 @@ Partial Class AdamReader
         Me.SidebarTopBtnBox.ResumeLayout(False)
         Me.Body.ResumeLayout(False)
         Me.TextContainer.ResumeLayout(False)
+        CType(Me.DragHerePic, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Message.ResumeLayout(False)
         Me.Message.PerformLayout()
         Me.Header.ResumeLayout(False)
@@ -380,4 +397,5 @@ Partial Class AdamReader
     Friend WithEvents ZoomOutBtn As Button
     Friend WithEvents DictionaryBuildBtn As Button
     Friend WithEvents TextContainer As Panel
+    Friend WithEvents DragHerePic As PictureBox
 End Class

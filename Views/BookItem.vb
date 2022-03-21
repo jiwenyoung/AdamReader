@@ -27,6 +27,8 @@
     Dim mark As Integer = Await BookMark.GetBookMark(Me.Id)
 
     ' Scroll to this Bookmark
+    AdamReader.DragHerePic.Hide()
+    AdamReader.TextBox.Show()
     AdamReader.TextBox.Select()
     AdamReader.TextBox.SelectionStart = mark
     AdamReader.TextBox.ScrollToCaret()

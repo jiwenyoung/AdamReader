@@ -38,6 +38,7 @@
 
 <PropertyGroup>
   <DebugType>embedded</DebugType>
+  <NeutralLanguage>en-US</NeutralLanguage>
 </PropertyGroup>
 
 </Project>

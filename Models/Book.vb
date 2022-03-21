@@ -1,8 +1,8 @@
 ﻿Imports System.Collections.Generic
 
 Public Class Book
-  Dim DB As Database = AdamReader.DB
-  Dim name As String
+  ReadOnly DB As Database = AdamReader.DB
+  ReadOnly name As String
 
   Sub New(bookname As String)
     Me.name = bookname
@@ -43,9 +43,10 @@ Public Class Book
   End Function
 
   Public Async Function Save() As Task(Of Boolean)
-    Dim data As Dictionary(Of String, String) = New Dictionary(Of String, String)
-    data.Add("BookName", name)
-    data.Add("BookMark", 1)
+    Dim data As New Dictionary(Of String, String) From {
+      {"BookName", name},
+      {"BookMark", 1}
+    }
     Await DB.Insert("Books", data)
     Return True
   End Function

@@ -1,5 +1,5 @@
 ﻿Public Class Settings
-  Private Shared Function chooseColor() As Color
+  Private Shared Function ChooseColor() As Color
     Dim items As New List(Of String) From {
       "#5352ed",
       "#ff6348",
@@ -17,5 +17,5 @@
   Shared Property DatabaseFileName As String = "AdamReader.db"
   Shared Property BooksFolder As String = "Books"
   Shared Property DefaultFontSize As Single = 14
-  Shared Property PrimaryColor As Color = chooseColor()
+  Shared Property PrimaryColor As Color = ChooseColor()
 End Class

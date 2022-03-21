@@ -12,7 +12,7 @@ Public Class Database
     databaseFile = Settings.DatabaseFileName
   End Sub
 
-  Private Sub initDataBase()
+  Private Sub InitDataBase()
     Dim sql As String
 
     ' Create Table
@@ -69,7 +69,7 @@ Public Class Database
     connection.Open()
     commander = connection.CreateCommand()
 
-    initDataBase()
+    InitDataBase()
     Return Me
   End Function
 
