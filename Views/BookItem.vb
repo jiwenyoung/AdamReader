@@ -1,5 +1,5 @@
 ﻿Public Class BookItem
-  Public Property id As Integer
+  Public Property Id As Integer
   Public Property ThisBookName As String
 
   Sub New(id As Integer, name As String)
@@ -8,7 +8,7 @@
     InitializeComponent()
 
     ' Add any initialization after the InitializeComponent() call.
-    Me.id = id
+    Me.Id = id
     Me.ThisBookName = name
   End Sub
 
@@ -24,7 +24,7 @@
     AdamReader.TextBox.Text = bookContent
 
     ' Get Bookmark
-    Dim mark As Integer = Await BookMark.GetBookMark(Me.id)
+    Dim mark As Integer = Await BookMark.GetBookMark(Me.Id)
 
     ' Scroll to this Bookmark
     AdamReader.TextBox.Select()
@@ -38,8 +38,8 @@
     AdamReader.SwitchSideBar("booklist")
 
     ' Set Adam Reader ID
-    AdamReader.currentID = Me.id
-    AdamReader.currentBookName = Me.ThisBookName
+    AdamReader.CurrentID = Me.Id
+    AdamReader.CurrentBookName = Me.ThisBookName
   End Sub
 
   Private Async Sub RemoveBtn_Click(sender As Object, e As EventArgs) Handles RemoveBtn.Click
@@ -49,17 +49,17 @@
     If result = DialogResult.Yes Then
       ' Get Full Path of Book File
       Dim currentPath As String = Environment.CurrentDirectory
-      Dim whereToSaveBook As String = Settings.booksFolder
+      Dim whereToSaveBook As String = Settings.BooksFolder
       Dim bookFolder = IO.Path.Combine(currentPath, whereToSaveBook)
       Dim fileName = String.Format("{0}.txt", Me.ThisBookName)
       Dim destination As String = IO.Path.Combine(bookFolder, fileName)
 
       ' Delete File
-      Dim removedBook As BookFile = New BookFile(destination)
+      Dim removedBook As New BookFile(destination)
       removedBook.Remove()
 
       ' Remove from database
-      Await BookList.RemoveFromList(Me.id)
+      Await BookList.RemoveFromList(Me.Id)
 
       ' Refresh BookList
       AdamReader.BarContent.Controls.Clear()

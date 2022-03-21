@@ -2,17 +2,17 @@
 Imports System.Threading.Tasks
 
 Public Class BookFile
-  Property bookPath As String
-  Property bookContent As String = ""
-  Property bookName As String = ""
+  Property BookPath As String
+  Property BookContent As String = ""
+  Property BookName As String = ""
 
   Sub New(bookLocation As String)
-    Me.bookPath = bookLocation
+    Me.BookPath = bookLocation
   End Sub
 
   Public Shared Function GetBookFilePath(thisBookFile As String) As String
     Dim currentPath = Environment.CurrentDirectory
-    Dim subPath = Settings.booksFolder
+    Dim subPath = Settings.BooksFolder
     Dim booksFolder As String = IO.Path.Combine(currentPath, subPath)
     If IO.Directory.Exists(booksFolder) Then
       Dim bookFile As String = String.Format("{0}.txt", thisBookFile)
@@ -25,7 +25,7 @@ Public Class BookFile
 
   Public Shared Function GetBooksFolder() As String
     Dim currentPath = Environment.CurrentDirectory
-    Dim subPath = Settings.booksFolder
+    Dim subPath = Settings.BooksFolder
     Dim booksFolder As String = IO.Path.Combine(currentPath, subPath)
     Return booksFolder
   End Function
@@ -33,8 +33,8 @@ Public Class BookFile
   Public Async Function Read() As Task(Of String)
     Dim content As String = ""
     Dim fileReader As IO.StreamReader
-    If IO.File.Exists(bookPath) Then
-      fileReader = My.Computer.FileSystem.OpenTextFileReader(bookPath)
+    If IO.File.Exists(BookPath) Then
+      fileReader = My.Computer.FileSystem.OpenTextFileReader(BookPath)
       content = Await fileReader.ReadToEndAsync()
       fileReader.Close()
     End If
@@ -42,17 +42,17 @@ Public Class BookFile
   End Function
 
   Public Async Function Write() As Task(Of Boolean)
-    If bookContent <> "" And bookName <> "" Then
+    If BookContent <> "" And BookName <> "" Then
       Dim booksFolder As String = GetBooksFolder()
       If IO.Directory.Exists(booksFolder) = False Then
         IO.Directory.CreateDirectory(booksFolder)
       End If
 
-      Dim bookFile As String = String.Format("{0}.txt", bookName)
+      Dim bookFile As String = String.Format("{0}.txt", BookName)
       bookFile = IO.Path.Combine(booksFolder, bookFile)
       Dim fileWriter As IO.StreamWriter
       fileWriter = My.Computer.FileSystem.OpenTextFileWriter(bookFile, False)
-      Await fileWriter.WriteAsync(bookContent)
+      Await fileWriter.WriteAsync(BookContent)
       fileWriter.Close()
       Return True
     Else
@@ -61,7 +61,7 @@ Public Class BookFile
   End Function
 
   Public Function Rename(newName As String) As Boolean
-    Dim oldFile = Me.bookPath
+    Dim oldFile = Me.BookPath
     If IO.File.Exists(oldFile) Then
       newName = String.Format("{0}.txt", newName)
       My.Computer.FileSystem.RenameFile(oldFile, newName)
@@ -72,8 +72,8 @@ Public Class BookFile
   End Function
 
   Public Function Remove() As Boolean
-    If IO.File.Exists(Me.bookPath) = True Then
-      My.Computer.FileSystem.DeleteFile(Me.bookPath)
+    If IO.File.Exists(Me.BookPath) = True Then
+      My.Computer.FileSystem.DeleteFile(Me.BookPath)
       Return True
     Else
       Return False

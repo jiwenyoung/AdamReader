@@ -141,10 +141,10 @@
         LT+4arsNX7QaqrQCK/etg6v2GPo1EuknUL914H9Q7/oNDlNxEgY5LAoAAAAASUVORK5CYII=
 </value>
   </data>
-  <data name="resetBtn.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+  <data name="resetBtn.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAL
-        DAAACwwBP0AiyAAAAgVJREFUSEvF1r1rFFEUxuGQVFpaBP8BRfyoDBFLQYgKCqIIQZImhRJQBNEgiPiF
+        DQAACw0B7QfALAAAAgVJREFUSEvF1r1rFFEUxuGQVFpaBP8BRfyoDBFLQYgKCqIIQZImhRJQBNEgiPiF
         2KigaCvGThDsLGIhWIiIQbAJQcVOQUEMNoKw/t7h3uHs/Zi5KxPywsNkz957ThJm7+xQr9dbE8lig804
         hou461zGcWxDuP46FoJaJSokDOME3qAt73EG66BfxifqGxUCR/AJg+abuyrLiHpHBeM+ushnRP2jgvME
         XaV48AN0maLBB9B1igb/RlsWcRXTOIy2u/0Lwjl9g2fQlD+Ygt2zHSWxeyr2hW77XP5iB+x6GcdNXGug
@@ -169,10 +169,10 @@
         f89L/QCZTGIkjhDkdAAAAABJRU5ErkJggg==
 </value>
   </data>
-  <data name="markBtn.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+  <data name="markBtn.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAL
-        DAAACwwBP0AiyAAAAQhJREFUSEvt1T9OAkEUx/GNvRU3UDmHJRI7CgsOQ/QIJBzBq5iYUKmEWBAINTYQ
+        DQAACw0B7QfALAAAAQhJREFUSEvt1T9OAkEUx/GNvRU3UDmHJRI7CgsOQ/QIJBzBq5iYUKmEWBAINTYQ
         SBSK8fvWWXeezrIwuxYm80s+Ce9lmF/4E0iMMUVu8YolVgfa4A7y/Es84Q33dvdNDdYJHhCaBk6/Hqqo
         HjVYPYRmBrmjlU555N1QPWqw5gjNBHLHdTrlOahYDoVmCrkj6BXLlyE0lYoXCE0szhKLY3HqXxd30klH
         9ajBqqP4AiPIb7eQv0fVowarjuJSvmUsPiaxuJBvGYuPyZ8Ub9HGFd5l4UntxUM0kZ05s7ufqbW4D985

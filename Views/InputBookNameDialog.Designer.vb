@@ -35,7 +35,7 @@ Partial Class InputBookNameDialog
         Me.BookNamePrompt.AutoSize = True
         Me.BookNamePrompt.Font = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point)
         Me.BookNamePrompt.ForeColor = System.Drawing.Color.White
-        Me.BookNamePrompt.Location = New System.Drawing.Point(37, 32)
+        Me.BookNamePrompt.Location = New System.Drawing.Point(37, 25)
         Me.BookNamePrompt.Name = "BookNamePrompt"
         Me.BookNamePrompt.Size = New System.Drawing.Size(179, 21)
         Me.BookNamePrompt.TabIndex = 0
@@ -47,7 +47,7 @@ Partial Class InputBookNameDialog
         Me.BookNameInputBox.BorderStyle = System.Windows.Forms.BorderStyle.None
         Me.BookNameInputBox.Font = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point)
         Me.BookNameInputBox.ForeColor = System.Drawing.Color.White
-        Me.BookNameInputBox.Location = New System.Drawing.Point(37, 71)
+        Me.BookNameInputBox.Location = New System.Drawing.Point(37, 68)
         Me.BookNameInputBox.Name = "BookNameInputBox"
         Me.BookNameInputBox.Size = New System.Drawing.Size(309, 22)
         Me.BookNameInputBox.TabIndex = 1
@@ -55,7 +55,7 @@ Partial Class InputBookNameDialog
         'BookNameInputBoxUnderLine
         '
         Me.BookNameInputBoxUnderLine.BackColor = System.Drawing.Color.FromArgb(CType(CType(83, Byte), Integer), CType(CType(82, Byte), Integer), CType(CType(237, Byte), Integer))
-        Me.BookNameInputBoxUnderLine.Location = New System.Drawing.Point(37, 98)
+        Me.BookNameInputBoxUnderLine.Location = New System.Drawing.Point(37, 88)
         Me.BookNameInputBoxUnderLine.Name = "BookNameInputBoxUnderLine"
         Me.BookNameInputBoxUnderLine.Size = New System.Drawing.Size(309, 2)
         Me.BookNameInputBoxUnderLine.TabIndex = 2
@@ -68,7 +68,7 @@ Partial Class InputBookNameDialog
         Me.BookNameInputBoxOKBtn.FlatAppearance.BorderSize = 0
         Me.BookNameInputBoxOKBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.BookNameInputBoxOKBtn.ForeColor = System.Drawing.Color.White
-        Me.BookNameInputBoxOKBtn.Location = New System.Drawing.Point(266, 114)
+        Me.BookNameInputBoxOKBtn.Location = New System.Drawing.Point(264, 100)
         Me.BookNameInputBoxOKBtn.Name = "BookNameInputBoxOKBtn"
         Me.BookNameInputBoxOKBtn.Size = New System.Drawing.Size(80, 35)
         Me.BookNameInputBoxOKBtn.TabIndex = 3
@@ -83,7 +83,7 @@ Partial Class InputBookNameDialog
         Me.Button1.FlatAppearance.BorderSize = 0
         Me.Button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.Button1.ForeColor = System.Drawing.Color.Black
-        Me.Button1.Location = New System.Drawing.Point(180, 114)
+        Me.Button1.Location = New System.Drawing.Point(178, 100)
         Me.Button1.Name = "Button1"
         Me.Button1.Size = New System.Drawing.Size(80, 35)
         Me.Button1.TabIndex = 4
@@ -104,6 +104,7 @@ Partial Class InputBookNameDialog
         Me.Controls.Add(Me.BookNamePrompt)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
+        Me.MinimizeBox = False
         Me.Name = "InputBookNameDialog"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "Please Input Book Name"

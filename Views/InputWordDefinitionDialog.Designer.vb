@@ -37,7 +37,7 @@ Partial Class InputWordDefinitionDialog
         '
         Me.PromptText.AutoSize = True
         Me.PromptText.Font = New System.Drawing.Font("Segoe UI", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point)
-        Me.PromptText.Location = New System.Drawing.Point(75, 67)
+        Me.PromptText.Location = New System.Drawing.Point(67, 35)
         Me.PromptText.Name = "PromptText"
         Me.PromptText.Size = New System.Drawing.Size(117, 25)
         Me.PromptText.TabIndex = 0
@@ -49,7 +49,7 @@ Partial Class InputWordDefinitionDialog
         Me.DefinitionInputBox.BorderStyle = System.Windows.Forms.BorderStyle.None
         Me.DefinitionInputBox.Font = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point)
         Me.DefinitionInputBox.ForeColor = System.Drawing.Color.White
-        Me.DefinitionInputBox.Location = New System.Drawing.Point(36, 129)
+        Me.DefinitionInputBox.Location = New System.Drawing.Point(36, 96)
         Me.DefinitionInputBox.Name = "DefinitionInputBox"
         Me.DefinitionInputBox.Size = New System.Drawing.Size(500, 22)
         Me.DefinitionInputBox.TabIndex = 4
@@ -61,7 +61,7 @@ Partial Class InputWordDefinitionDialog
         Me.OKBtn.DialogResult = System.Windows.Forms.DialogResult.OK
         Me.OKBtn.FlatAppearance.BorderSize = 0
         Me.OKBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.OKBtn.Location = New System.Drawing.Point(436, 177)
+        Me.OKBtn.Location = New System.Drawing.Point(434, 138)
         Me.OKBtn.Name = "OKBtn"
         Me.OKBtn.Size = New System.Drawing.Size(100, 30)
         Me.OKBtn.TabIndex = 5
@@ -76,7 +76,7 @@ Partial Class InputWordDefinitionDialog
         Me.Button2.FlatAppearance.BorderSize = 0
         Me.Button2.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.Button2.ForeColor = System.Drawing.Color.DimGray
-        Me.Button2.Location = New System.Drawing.Point(330, 177)
+        Me.Button2.Location = New System.Drawing.Point(328, 138)
         Me.Button2.Name = "Button2"
         Me.Button2.Size = New System.Drawing.Size(100, 30)
         Me.Button2.TabIndex = 6
@@ -86,7 +86,7 @@ Partial Class InputWordDefinitionDialog
         'DefinitionInputBoxUnderline
         '
         Me.DefinitionInputBoxUnderline.BackColor = System.Drawing.Color.FromArgb(CType(CType(83, Byte), Integer), CType(CType(82, Byte), Integer), CType(CType(237, Byte), Integer))
-        Me.DefinitionInputBoxUnderline.Location = New System.Drawing.Point(36, 149)
+        Me.DefinitionInputBoxUnderline.Location = New System.Drawing.Point(36, 116)
         Me.DefinitionInputBoxUnderline.Name = "DefinitionInputBoxUnderline"
         Me.DefinitionInputBoxUnderline.Size = New System.Drawing.Size(500, 2)
         Me.DefinitionInputBoxUnderline.TabIndex = 7
@@ -95,7 +95,7 @@ Partial Class InputWordDefinitionDialog
         '
         Me.SelectedWord.AutoSize = True
         Me.SelectedWord.Font = New System.Drawing.Font("Segoe UI", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point)
-        Me.SelectedWord.Location = New System.Drawing.Point(187, 67)
+        Me.SelectedWord.Location = New System.Drawing.Point(185, 37)
         Me.SelectedWord.Name = "SelectedWord"
         Me.SelectedWord.Size = New System.Drawing.Size(58, 25)
         Me.SelectedWord.TabIndex = 8
@@ -104,7 +104,7 @@ Partial Class InputWordDefinitionDialog
         'PictureBox1
         '
         Me.PictureBox1.Image = CType(resources.GetObject("PictureBox1.Image"), System.Drawing.Image)
-        Me.PictureBox1.Location = New System.Drawing.Point(44, 67)
+        Me.PictureBox1.Location = New System.Drawing.Point(36, 35)
         Me.PictureBox1.Name = "PictureBox1"
         Me.PictureBox1.Size = New System.Drawing.Size(25, 25)
         Me.PictureBox1.TabIndex = 9
@@ -115,7 +115,7 @@ Partial Class InputWordDefinitionDialog
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 15.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.FromArgb(CType(CType(47, Byte), Integer), CType(CType(53, Byte), Integer), CType(CType(66, Byte), Integer))
-        Me.ClientSize = New System.Drawing.Size(584, 261)
+        Me.ClientSize = New System.Drawing.Size(584, 214)
         Me.ControlBox = False
         Me.Controls.Add(Me.PictureBox1)
         Me.Controls.Add(Me.SelectedWord)

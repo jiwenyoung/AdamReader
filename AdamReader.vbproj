@@ -17,7 +17,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="dot-net-transitions" Version="1.2.1" />
     <PackageReference Include="Microsoft.Data.Sqlite" Version="6.0.3" />
   </ItemGroup>
 
@@ -36,5 +35,9 @@
       <LastGenOutput>Settings.Designer.vb</LastGenOutput>
     </None>
   </ItemGroup>
+
+<PropertyGroup>
+  <DebugType>embedded</DebugType>
+</PropertyGroup>
 
 </Project>

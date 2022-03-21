@@ -1,52 +1,51 @@
-﻿Imports Transitions
-
-Public Class AdamReader
+﻿Public Class AdamReader
   Public Property DB As Database
-  Public Property currentID As Integer = 0
-  Public Property currentBookName As String = ""
+  Public Property CurrentID As Integer = 0
+  Public Property CurrentBookName As String = ""
 
-  Dim textBoxfontSize As Single = Settings.defaultFontSize
+  Dim textBoxfontSize As Single = Settings.DefaultFontSize
   Dim sidebarStatus As String = "booklist"
 
-  Private Sub setColor()
-    Me.Header.BackColor = Settings.primaryColor
-    Me.ImportBookBtn.BackColor = Settings.primaryColor
-    Me.BooksUnderLine.BackColor = Settings.primaryColor
-    Me.DictUnderLine.BackColor = Settings.primaryColor
-    Me.Message.BackColor = Settings.primaryColor
-    Me.BookNameTextBox.BackColor = Settings.primaryColor
+  Private Sub SetColor()
+    Me.Header.BackColor = Settings.PrimaryColor
+    Me.ImportBookBtn.BackColor = Settings.PrimaryColor
+    Me.BooksUnderLine.BackColor = Settings.PrimaryColor
+    Me.DictUnderLine.BackColor = Settings.PrimaryColor
+    Me.Message.BackColor = Settings.PrimaryColor
+    Me.BookNameTextBox.BackColor = Settings.PrimaryColor
 
-    Me.DictionaryBuildBtn.BackColor = Settings.primaryColor
-    Me.DictionaryBuildBtn.FlatAppearance.MouseOverBackColor = Settings.primaryColor
-    Me.DictionaryBuildBtn.FlatAppearance.MouseDownBackColor = Settings.primaryColor
+    Me.DictionaryBuildBtn.BackColor = Settings.PrimaryColor
+    Me.DictionaryBuildBtn.FlatAppearance.MouseOverBackColor = Settings.PrimaryColor
+    Me.DictionaryBuildBtn.FlatAppearance.MouseDownBackColor = Settings.PrimaryColor
 
-    Me.resetBtn.BackColor = Settings.primaryColor
-    Me.resetBtn.FlatAppearance.MouseOverBackColor = Settings.primaryColor
-    Me.resetBtn.FlatAppearance.MouseDownBackColor = Settings.primaryColor
+    Me.resetBtn.BackColor = Settings.PrimaryColor
+    Me.resetBtn.FlatAppearance.MouseOverBackColor = Settings.PrimaryColor
+    Me.resetBtn.FlatAppearance.MouseDownBackColor = Settings.PrimaryColor
 
-    Me.markBtn.BackColor = Settings.primaryColor
-    Me.markBtn.FlatAppearance.MouseOverBackColor = Settings.primaryColor
-    Me.markBtn.FlatAppearance.MouseDownBackColor = Settings.primaryColor
+    Me.markBtn.BackColor = Settings.PrimaryColor
+    Me.markBtn.FlatAppearance.MouseOverBackColor = Settings.PrimaryColor
+    Me.markBtn.FlatAppearance.MouseDownBackColor = Settings.PrimaryColor
 
-    Me.ZoomInBtn.BackColor = Settings.primaryColor
-    Me.ZoomInBtn.FlatAppearance.MouseDownBackColor = Settings.primaryColor
-    Me.ZoomInBtn.FlatAppearance.MouseOverBackColor = Settings.primaryColor
+    Me.ZoomInBtn.BackColor = Settings.PrimaryColor
+    Me.ZoomInBtn.FlatAppearance.MouseDownBackColor = Settings.PrimaryColor
+    Me.ZoomInBtn.FlatAppearance.MouseOverBackColor = Settings.PrimaryColor
 
-    Me.ZoomOutBtn.BackColor = Settings.primaryColor
-    Me.ZoomOutBtn.FlatAppearance.MouseOverBackColor = Settings.primaryColor
-    Me.ZoomOutBtn.FlatAppearance.MouseDownBackColor = Settings.primaryColor
+    Me.ZoomOutBtn.BackColor = Settings.PrimaryColor
+    Me.ZoomOutBtn.FlatAppearance.MouseOverBackColor = Settings.PrimaryColor
+    Me.ZoomOutBtn.FlatAppearance.MouseDownBackColor = Settings.PrimaryColor
 
-    InputBookNameDialog.BookNameInputBoxOKBtn.BackColor = Settings.primaryColor
-    InputBookNameDialog.BookNameInputBoxUnderLine.BackColor = Settings.primaryColor
-    InputWordDefinitionDialog.OKBtn.BackColor = Settings.primaryColor
-    InputWordDefinitionDialog.DefinitionInputBoxUnderline.BackColor = Settings.primaryColor
+    InputBookNameDialog.BookNameInputBoxOKBtn.BackColor = Settings.PrimaryColor
+    InputBookNameDialog.BookNameInputBoxUnderLine.BackColor = Settings.PrimaryColor
+    InputWordDefinitionDialog.OKBtn.BackColor = Settings.PrimaryColor
+    InputWordDefinitionDialog.DefinitionInputBoxUnderline.BackColor = Settings.PrimaryColor
   End Sub
 
-  Private Function pickFile(filter As String)
+  Private Shared Function PickFile(filter As String)
     Dim filename As String
-    Dim filePicker As OpenFileDialog = New OpenFileDialog()
-    filePicker.Filter = filter
-    filePicker.RestoreDirectory = True
+    Dim filePicker As New OpenFileDialog With {
+      .Filter = filter,
+      .RestoreDirectory = True
+    }
     If filePicker.ShowDialog() = DialogResult.OK Then
       filename = filePicker.FileName
       filePicker.Dispose()
@@ -57,29 +56,22 @@ Public Class AdamReader
     End If
   End Function
 
-  Public Async Sub showMessage(notice As String)
+  Public Async Sub ShowMessage(notice As String)
     Me.MessageText.Text = notice
     Dim x As Integer = (Me.Message.Width - Me.MessageText.Width) / 2
     Dim y As Integer = (Me.Message.Height - Me.MessageText.Height) / 2
     Me.MessageText.Location = New Point(x, y)
 
-    ' Message Box Transition 
-    Me.Message.Visible = True
-    Dim tran As Transition = New Transition(New TransitionType_EaseInEaseOut(1000))
-    tran.add(Message, "Left", 0)
-    tran.run()
-
+    ' Message Box Show
+    Me.Message.Show()
     Await Task.Delay(4000)
-    x = Me.Message.Width - Me.Message.Width * 2
-    y = Me.TextBox.Height
-    Me.Message.Location = New Point(x, y)
-    Me.Message.Visible = False
+    Me.Message.Hide()
   End Sub
 
-  Public Sub highLightSelected()
+  Public Sub HighLightSelected()
     For Each element As BookItem In BarContent.Controls
-      If element.ThisBookName = currentBookName And element.id = currentID Then
-        element.BookName.ForeColor = Settings.primaryColor
+      If element.ThisBookName = CurrentBookName And element.Id = CurrentID Then
+        element.BookName.ForeColor = Settings.PrimaryColor
       Else
         element.BookName.ForeColor = ColorTranslator.FromHtml("#a4b0be")
       End If
@@ -96,14 +88,15 @@ Public Class AdamReader
     For Each bookEntry As BookEntry In bookCollection
       Dim id As Integer = Integer.Parse(bookEntry.id)
       Dim name As String = bookEntry.BookName
-      Dim bookItem As BookItem = New BookItem(id, name)
-      bookItem.Width = BarContent.Width - 26
-      bookItem.TopLevel = False
+      Dim bookItem As New BookItem(id, name) With {
+        .Width = BarContent.Width - 26,
+        .TopLevel = False
+      }
       BarContent.Controls.Add(bookItem)
       bookItem.Show()
     Next
 
-    highLightSelected()
+    HighLightSelected()
   End Sub
 
   Public Sub SwitchSideBar(whichOne As String)
@@ -131,9 +124,9 @@ Public Class AdamReader
     Dim currentCursor As Integer = Me.TextBox.SelectionStart
     Me.TextBox.SelectAll()
     If direction = "in" Then
-      textBoxfontSize = textBoxfontSize + 2
+      textBoxfontSize += 2
     ElseIf direction = "out" Then
-      textBoxfontSize = textBoxfontSize - 2
+      textBoxfontSize -= 2
     End If
     Dim myFontFamily As FontFamily = TextBox.SelectionFont.FontFamily
     Me.TextBox.SelectionFont = New Font(myFontFamily, textBoxfontSize, FontStyle.Regular)
@@ -148,16 +141,18 @@ Public Class AdamReader
     Me.TextBox.ReadOnly = True
     Me.TextBox.HideSelection = True
     Me.WindowState = Me.WindowState.Maximized
-    Me.BookNameTextBox.Width = Me.Header.Width - 400
+    Me.BookNameTextBox.Width = Me.Header.Width * （30 / 100）
+    InputBookNameDialog.Height = 200
     MyBase.KeyPreview = True
-    setColor()
+    Me.Message.BringToFront()
+    SetColor()
   End Sub
 
   Private Sub DictionaryBtn_Click(sender As Object, e As EventArgs) Handles DictionaryBtn.Click
     Try
       SwitchSideBar("dictionary")
     Catch ex As Exception
-      showMessage(ex.Message)
+      ShowMessage(ex.Message)
     End Try
   End Sub
 
@@ -165,7 +160,7 @@ Public Class AdamReader
     Try
       SwitchSideBar("booklist")
     Catch ex As Exception
-      showMessage(ex.Message)
+      ShowMessage(ex.Message)
     End Try
   End Sub
 
@@ -178,7 +173,7 @@ Public Class AdamReader
       If dialogResult = DialogResult.OK Then
         name = InputBookNameDialog.BookName
         InputBookNameDialog.Hide()
-        filename = Me.pickFile("txt files (*.txt)|*.txt|All files (*.*)|*.*")
+        filename = PickFile("txt files (*.txt)|*.txt|All files (*.*)|*.*")
         If filename <> "NO" Then
           ' Show Prograss Bar
           PrograssBar.Prograss.Maximum = 3
@@ -187,7 +182,7 @@ Public Class AdamReader
           PrograssBar.Show()
 
           ' Read file content to a String
-          Dim importedBook As BookFile = New BookFile(filename)
+          Dim importedBook As New BookFile(filename)
           Dim content As String = Await importedBook.Read()
           PrograssBar.Prograss.Increment(1)
 
@@ -200,7 +195,7 @@ Public Class AdamReader
           ' Write to database about bookname
           Dim booksWithSameNameInDB As Integer = Await DB.Count("Books", "BookName", name)
           If booksWithSameNameInDB = 0 Then
-            Dim freshBook As Book = New Book(name)
+            Dim freshBook As New Book(name)
             Await freshBook.Save()
           End If
           PrograssBar.Prograss.Increment(1)
@@ -216,7 +211,7 @@ Public Class AdamReader
         InputBookNameDialog.Dispose()
       End If
     Catch ex As Exception
-      showMessage(ex.Message)
+      ShowMessage(ex.Message)
     End Try
   End Sub
 
@@ -225,7 +220,7 @@ Public Class AdamReader
       DictionaryContent.Width = Me.BarContent.Width - 28
       DictionaryContent.Height = Me.BarContent.Height - 28
     Catch ex As Exception
-      showMessage(ex.Message)
+      ShowMessage(ex.Message)
     End Try
   End Sub
 
@@ -233,7 +228,7 @@ Public Class AdamReader
     Try
       Me.ImportBookBtn.FlatAppearance.BorderSize = 0
     Catch ex As Exception
-      showMessage(ex.Message)
+      ShowMessage(ex.Message)
     End Try
   End Sub
 
@@ -245,19 +240,19 @@ Public Class AdamReader
     End Try
   End Sub
 
-  Private Async Sub markBtn_Click(sender As Object, e As EventArgs) Handles markBtn.Click
+  Private Async Sub MarkBtn_Click(sender As Object, e As EventArgs) Handles markBtn.Click
     Try
       ' Get Current Caret Index
       Me.TextBox.Select()
       Dim mark As Integer = Me.TextBox.SelectionStart
 
       ' Update it to database
-      Dim newBookMark As BookMark = New BookMark(Me.currentID, mark)
+      Dim newBookMark As New BookMark(Me.CurrentID, mark)
       Await newBookMark.Save()
 
-      showMessage("BookMark Updated")
+      ShowMessage("BookMark Updated")
     Catch ex As Exception
-      showMessage(ex.Message)
+      ShowMessage(ex.Message)
     End Try
   End Sub
 
@@ -272,8 +267,9 @@ Public Class AdamReader
       Dim GetPointedWord = Function() As String
                              Dim content As String = Me.TextBox.Text
                              Dim charIndex As Integer = Me.TextBox.GetCharIndexFromPosition(e.Location)
-                             Dim word As List(Of Char) = New List(Of Char)
-                             word.Add(content.Chars(charIndex))
+                             Dim word As New List(Of Char) From {
+                               content.Chars(charIndex)
+                             }
                              Dim symbols As Char() = {
                                   " ", "!", "?", ".", "[", "]", "<", ">", "&", "@", "$",
                                   ",", ";", "-", "(", ")", "{", "}", "#", "*", "%", ":", "\r", "\n",
@@ -286,20 +282,20 @@ Public Class AdamReader
                                While symbols.Contains(content.Chars(index)) = False
                                  Dim myChar = content.Chars(index)
                                  word.Insert(0, myChar)
-                                 index = index - 1
+                                 index -= 1
                                End While
 
                                index = charIndex + 1
                                While symbols.Contains(content.Chars(index)) = False
                                  Dim myChar = content.Chars(index)
                                  word.Add(content.Chars(index))
-                                 index = index + 1
+                                 index += 1
                                End While
                              End If
 
                              Dim charStr As String = ""
                              For Each chr As Char In word
-                               charStr = charStr + chr
+                               charStr += chr
                              Next
                              Return charStr
                            End Function
@@ -327,7 +323,7 @@ Public Class AdamReader
 
             ' Write the defination into database
             If Await Dictionary.Add(selectedWord, definition) Then
-              showMessage("New word has been added")
+              ShowMessage("New word has been added")
             End If
           End If
         End If
@@ -337,11 +333,11 @@ Public Class AdamReader
         DictionaryContent.ChinieseText.Text = definition
       End If
     Catch ex As Exception
-      showMessage(ex.Message)
+      ShowMessage(ex.Message)
     End Try
   End Sub
 
-  Private Sub resetBtn_Click(sender As Object, e As EventArgs) Handles resetBtn.Click
+  Private Sub ResetBtn_Click(sender As Object, e As EventArgs) Handles resetBtn.Click
     Try
       Dim message As String = "Do you want to reset this application?"
       Dim caption As String = "RESET"
@@ -352,36 +348,36 @@ Public Class AdamReader
         Application.Exit()
       End If
     Catch ex As Exception
-      showMessage(ex.Message)
+      ShowMessage(ex.Message)
     End Try
   End Sub
 
   Private Async Sub BookNameTextBox_Leave(sender As Object, e As EventArgs) Handles BookNameTextBox.Leave
     Try
       Dim newName As String = Me.BookNameTextBox.Text
-      Dim modifiedName As String = Await Book.Rename(currentID, currentBookName, newName)
+      Dim modifiedName As String = Await Book.Rename(CurrentID, CurrentBookName, newName)
       If modifiedName <> "" Then
         Me.BookNameTextBox.Text = modifiedName
-        currentBookName = modifiedName
+        CurrentBookName = modifiedName
         SwitchSideBar("booklist")
-        showMessage("Book name has been modified")
+        ShowMessage("Book name has been modified")
       Else
-        Me.BookNameTextBox.Text = currentBookName
+        Me.BookNameTextBox.Text = CurrentBookName
       End If
     Catch ex As Exception
-      showMessage(ex.Message)
+      ShowMessage(ex.Message)
     End Try
   End Sub
 
   Private Sub BarContent_Paint(sender As Object, e As PaintEventArgs) Handles BarContent.Paint
     Try
       If sidebarStatus = "booklist" Then
-        If currentBookName <> "" And currentID <> 0 Then
-          highLightSelected()
+        If CurrentBookName <> "" And CurrentID <> 0 Then
+          HighLightSelected()
         End If
       End If
     Catch ex As Exception
-      showMessage(ex.Message)
+      ShowMessage(ex.Message)
     End Try
   End Sub
 
@@ -389,7 +385,7 @@ Public Class AdamReader
     Try
       Zoom("in")
     Catch ex As Exception
-      showMessage(ex.Message)
+      ShowMessage(ex.Message)
     End Try
   End Sub
 
@@ -397,7 +393,7 @@ Public Class AdamReader
     Try
       Zoom("out")
     Catch ex As Exception
-      showMessage(ex.Message)
+      ShowMessage(ex.Message)
     End Try
   End Sub
 
@@ -409,10 +405,10 @@ Public Class AdamReader
         If IO.File.Exists("dictionary.dat") Then
           fileReader = New IO.StreamReader("dictionary.dat")
         Else
-          Dim csvWordFile As String = pickFile("csv files (*.csv)|*.csv|All files (*.*)|*.*")
+          Dim csvWordFile As String = PickFile("csv files (*.csv)|*.csv|All files (*.*)|*.*")
           fileReader = New IO.StreamReader(csvWordFile)
         End If
-        Dim data As List(Of String) = New List(Of String)
+        Dim data As New List(Of String)
 
         Dim cleanENG = Function(eng As String)
                          If "abcdefghijklmnopqrstuvwxyz".Contains(eng(0)) = False Then
@@ -437,7 +433,7 @@ Public Class AdamReader
           Dim sino As String = cleanSINO(columns(1))
 
           If sino <> "" Then
-            If eng.Contains(" ") = False Then
+            If eng.Contains(" "c) = False Then
               data.Add(String.Format("'{0}','{1}'", eng, sino))
             End If
           End If
@@ -450,17 +446,17 @@ Public Class AdamReader
                          PrograssBar.Prograss.Increment(1)
                          Return True
                        End Function
-        Await DB.fill("Words", data, callback)
+        Await DB.Fill("Words", data, callback)
         PrograssBar.Hide()
         PrograssBar.Dispose()
-        showMessage("Dictionary Database has been created")
+        ShowMessage("Dictionary Database has been created")
 
         Application.Restart()
       Else
-        showMessage("Dictionary Database is OK")
+        ShowMessage("Dictionary Database is OK")
       End If
     Catch ex As Exception
-      showMessage(ex.Message)
+      ShowMessage(ex.Message)
     End Try
   End Sub
 
@@ -473,7 +469,7 @@ Public Class AdamReader
         Zoom("out")
       End If
     Catch ex As Exception
-      showMessage(ex.Message)
+      ShowMessage(ex.Message)
     End Try
   End Sub
 End Class

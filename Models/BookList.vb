@@ -1,17 +1,16 @@
-﻿Imports System.Collections.Generic
-
-Public Class BookList
+﻿Public Class BookList
 
   Public Shared Async Function GetList() As Task(Of List(Of BookEntry))
     Dim DB As Database = AdamReader.DB
-    Dim collection As List(Of BookEntry) = New List(Of BookEntry)
+    Dim collection As New List(Of BookEntry)
     Dim results As List(Of List(Of String))
-    Dim fields As List(Of String) = New List(Of String)
-    fields.Add("ROWID")
-    fields.Add("BookName")
+    Dim fields As New List(Of String) From {
+      "ROWID",
+      "BookName"
+    }
     results = Await DB.Choice(fields).From("Books").OrderBy("DESC").Query()
     For Each document As List(Of String) In results
-      Dim item As BookEntry = New BookEntry(document(0), document(1))
+      Dim item As New BookEntry(document(0), document(1))
       collection.Add(item)
     Next
     Return collection

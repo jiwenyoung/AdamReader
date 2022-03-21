@@ -32,9 +32,10 @@ Partial Class AdamReader
         Me.DictionaryBtn = New System.Windows.Forms.Button()
         Me.ImportBookBtn = New System.Windows.Forms.Button()
         Me.Body = New System.Windows.Forms.Panel()
+        Me.TextContainer = New System.Windows.Forms.Panel()
+        Me.TextBox = New System.Windows.Forms.RichTextBox()
         Me.Message = New System.Windows.Forms.Panel()
         Me.MessageText = New System.Windows.Forms.Label()
-        Me.TextBox = New System.Windows.Forms.RichTextBox()
         Me.Header = New System.Windows.Forms.Panel()
         Me.DictionaryBuildBtn = New System.Windows.Forms.Button()
         Me.ZoomOutBtn = New System.Windows.Forms.Button()
@@ -46,6 +47,7 @@ Partial Class AdamReader
         Me.Bar.SuspendLayout()
         Me.SidebarTopBtnBox.SuspendLayout()
         Me.Body.SuspendLayout()
+        Me.TextContainer.SuspendLayout()
         Me.Message.SuspendLayout()
         Me.Header.SuspendLayout()
         CType(Me.Logo, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -152,8 +154,8 @@ Partial Class AdamReader
         'Body
         '
         Me.Body.BackColor = System.Drawing.Color.DimGray
+        Me.Body.Controls.Add(Me.TextContainer)
         Me.Body.Controls.Add(Me.Message)
-        Me.Body.Controls.Add(Me.TextBox)
         Me.Body.Controls.Add(Me.Header)
         Me.Body.Dock = System.Windows.Forms.DockStyle.Fill
         Me.Body.Location = New System.Drawing.Point(0, 0)
@@ -161,12 +163,38 @@ Partial Class AdamReader
         Me.Body.Size = New System.Drawing.Size(684, 629)
         Me.Body.TabIndex = 1
         '
+        'TextContainer
+        '
+        Me.TextContainer.BackColor = System.Drawing.Color.FromArgb(CType(CType(87, Byte), Integer), CType(CType(96, Byte), Integer), CType(CType(111, Byte), Integer))
+        Me.TextContainer.Controls.Add(Me.TextBox)
+        Me.TextContainer.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.TextContainer.Location = New System.Drawing.Point(0, 50)
+        Me.TextContainer.Name = "TextContainer"
+        Me.TextContainer.Padding = New System.Windows.Forms.Padding(20, 20, 0, 20)
+        Me.TextContainer.Size = New System.Drawing.Size(684, 579)
+        Me.TextContainer.TabIndex = 0
+        '
+        'TextBox
+        '
+        Me.TextBox.BackColor = System.Drawing.Color.FromArgb(CType(CType(87, Byte), Integer), CType(CType(96, Byte), Integer), CType(CType(111, Byte), Integer))
+        Me.TextBox.BorderStyle = System.Windows.Forms.BorderStyle.None
+        Me.TextBox.Cursor = System.Windows.Forms.Cursors.Hand
+        Me.TextBox.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.TextBox.Font = New System.Drawing.Font("Segoe UI", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point)
+        Me.TextBox.ForeColor = System.Drawing.Color.White
+        Me.TextBox.Location = New System.Drawing.Point(20, 20)
+        Me.TextBox.Margin = New System.Windows.Forms.Padding(0)
+        Me.TextBox.Name = "TextBox"
+        Me.TextBox.Size = New System.Drawing.Size(664, 539)
+        Me.TextBox.TabIndex = 2
+        Me.TextBox.Text = ""
+        '
         'Message
         '
         Me.Message.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.Message.BackColor = System.Drawing.Color.FromArgb(CType(CType(83, Byte), Integer), CType(CType(82, Byte), Integer), CType(CType(237, Byte), Integer))
         Me.Message.Controls.Add(Me.MessageText)
-        Me.Message.Location = New System.Drawing.Point(-400, 579)
+        Me.Message.Location = New System.Drawing.Point(0, 579)
         Me.Message.Name = "Message"
         Me.Message.Size = New System.Drawing.Size(400, 50)
         Me.Message.TabIndex = 0
@@ -182,20 +210,6 @@ Partial Class AdamReader
         Me.MessageText.Size = New System.Drawing.Size(71, 21)
         Me.MessageText.TabIndex = 0
         Me.MessageText.Text = "Message"
-        '
-        'TextBox
-        '
-        Me.TextBox.BackColor = System.Drawing.Color.FromArgb(CType(CType(87, Byte), Integer), CType(CType(96, Byte), Integer), CType(CType(111, Byte), Integer))
-        Me.TextBox.BorderStyle = System.Windows.Forms.BorderStyle.None
-        Me.TextBox.Cursor = System.Windows.Forms.Cursors.Hand
-        Me.TextBox.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.TextBox.Font = New System.Drawing.Font("Segoe UI", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point)
-        Me.TextBox.ForeColor = System.Drawing.Color.White
-        Me.TextBox.Location = New System.Drawing.Point(0, 50)
-        Me.TextBox.Name = "TextBox"
-        Me.TextBox.Size = New System.Drawing.Size(684, 579)
-        Me.TextBox.TabIndex = 2
-        Me.TextBox.Text = ""
         '
         'Header
         '
@@ -280,13 +294,13 @@ Partial Class AdamReader
         '
         Me.resetBtn.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.resetBtn.BackColor = System.Drawing.Color.FromArgb(CType(CType(83, Byte), Integer), CType(CType(82, Byte), Integer), CType(CType(237, Byte), Integer))
-        Me.resetBtn.BackgroundImage = CType(resources.GetObject("resetBtn.BackgroundImage"), System.Drawing.Image)
         Me.resetBtn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
         Me.resetBtn.Cursor = System.Windows.Forms.Cursors.Hand
         Me.resetBtn.FlatAppearance.BorderSize = 0
         Me.resetBtn.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent
         Me.resetBtn.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent
         Me.resetBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.resetBtn.Image = CType(resources.GetObject("resetBtn.Image"), System.Drawing.Image)
         Me.resetBtn.Location = New System.Drawing.Point(580, 10)
         Me.resetBtn.Name = "resetBtn"
         Me.resetBtn.Size = New System.Drawing.Size(30, 30)
@@ -306,13 +320,13 @@ Partial Class AdamReader
         '
         Me.markBtn.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.markBtn.BackColor = System.Drawing.Color.FromArgb(CType(CType(83, Byte), Integer), CType(CType(82, Byte), Integer), CType(CType(237, Byte), Integer))
-        Me.markBtn.BackgroundImage = CType(resources.GetObject("markBtn.BackgroundImage"), System.Drawing.Image)
         Me.markBtn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
         Me.markBtn.Cursor = System.Windows.Forms.Cursors.Hand
         Me.markBtn.FlatAppearance.BorderSize = 0
         Me.markBtn.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent
         Me.markBtn.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent
         Me.markBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.markBtn.Image = CType(resources.GetObject("markBtn.Image"), System.Drawing.Image)
         Me.markBtn.Location = New System.Drawing.Point(630, 10)
         Me.markBtn.Name = "markBtn"
         Me.markBtn.Size = New System.Drawing.Size(30, 30)
@@ -335,6 +349,7 @@ Partial Class AdamReader
         Me.Bar.ResumeLayout(False)
         Me.SidebarTopBtnBox.ResumeLayout(False)
         Me.Body.ResumeLayout(False)
+        Me.TextContainer.ResumeLayout(False)
         Me.Message.ResumeLayout(False)
         Me.Message.PerformLayout()
         Me.Header.ResumeLayout(False)
@@ -364,4 +379,5 @@ Partial Class AdamReader
     Friend WithEvents ZoomInBtn As Button
     Friend WithEvents ZoomOutBtn As Button
     Friend WithEvents DictionaryBuildBtn As Button
+    Friend WithEvents TextContainer As Panel
 End Class

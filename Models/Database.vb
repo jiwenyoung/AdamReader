@@ -6,10 +6,10 @@ Public Class Database
   Dim find As String
   Dim isQueryChoiceExected As Boolean = False
   Dim isQueryFromExected As Boolean = False
-  Dim databaseFile As String
+  ReadOnly databaseFile As String
 
   Sub New()
-    databaseFile = Settings.databaseFileName
+    databaseFile = Settings.DatabaseFileName
   End Sub
 
   Private Sub initDataBase()
@@ -41,7 +41,7 @@ Public Class Database
                       End Function
 
     ' Create Tables Transcation
-    Dim fileds As List(Of String) = New List(Of String)
+    Dim fileds As New List(Of String)
 
     ' Create Table Books
     fileds.Clear()
@@ -60,8 +60,9 @@ Public Class Database
   End Sub
 
   Public Function Conntect() As Database
-    Dim connectBuilder As SqliteConnectionStringBuilder = New SqliteConnectionStringBuilder()
-    connectBuilder.DataSource = databaseFile
+    Dim connectBuilder As New SqliteConnectionStringBuilder With {
+      .DataSource = databaseFile
+    }
     Dim connectString As String = connectBuilder.ToString()
 
     connection = New SqliteConnection(connectString)
@@ -122,12 +123,12 @@ Public Class Database
   End Function
 
   Public Async Function Query() As Task(Of List(Of List(Of String)))
-    Dim result As List(Of List(Of String)) = New List(Of List(Of String))
+    Dim result As New List(Of List(Of String))
     commander.CommandText = Me.find
     Dim reader As SqliteDataReader = Await commander.ExecuteReaderAsync()
     While Await reader.ReadAsync()
       Dim cols As Integer = reader.FieldCount - 1
-      Dim items As List(Of String) = New List(Of String)
+      Dim items As New List(Of String)
       For index As Integer = 0 To cols
         items.Add(reader.GetString(index))
       Next
@@ -176,7 +177,7 @@ Public Class Database
     Return True
   End Function
 
-  Public Async Function fill(tableName As String, data As List(Of String), callback As Func(Of Boolean)) As Task(Of Boolean)
+  Public Async Function Fill(tableName As String, data As List(Of String), callback As Func(Of Boolean)) As Task(Of Boolean)
     Dim tr As SqliteTransaction = connection.BeginTransaction()
     Using tr
       commander.Transaction = tr

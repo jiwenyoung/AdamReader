@@ -11,7 +11,7 @@ Public Class Book
   Public Shared Async Function Fetch(name As String) As Task(Of String)
     Dim DB As Database = AdamReader.DB
     Dim currentPath As String = Environment.CurrentDirectory
-    Dim whereToSaveBooks As String = Settings.booksFolder
+    Dim whereToSaveBooks As String = Settings.BooksFolder
     Dim bookFolder As String = IO.Path.Combine(currentPath, whereToSaveBooks)
     Dim fileName As String = String.Format("{0}.txt", name)
     Dim fileFullPath = IO.Path.Combine(bookFolder, fileName)
@@ -31,7 +31,7 @@ Public Class Book
     If Await DB.Update("Books", "BookName", newName, bookId) Then
       Dim thisBookFilePath As String = BookFile.GetBookFilePath(oldName)
       Debug.WriteLine(thisBookFilePath)
-      Dim thisBookFile As BookFile = New BookFile(thisBookFilePath)
+      Dim thisBookFile As New BookFile(thisBookFilePath)
       If thisBookFile.Rename(newName) Then
         Return newName
       Else
