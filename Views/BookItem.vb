@@ -12,11 +12,7 @@
     Me.ThisBookName = name
   End Sub
 
-  Private Sub BookItem_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-    Me.BookName.Text = Me.ThisBookName
-  End Sub
-
-  Private Async Sub BookName_Click(sender As Object, e As EventArgs) Handles BookName.Click, Me.Click
+  Public Async Function PickOneBookItem() As Task
     ' Fetch text from file
     Dim bookContent As String = Await Book.Fetch(Me.ThisBookName)
 
@@ -36,18 +32,26 @@
     ' Set Header TextBox
     AdamReader.BookNameTextBox.Text = Me.ThisBookName
 
-    ' HightLight Current and Whitize others
-    AdamReader.SwitchSideBar("booklist")
-
     ' Set Adam Reader ID
     AdamReader.CurrentID = Me.Id
     AdamReader.CurrentBookName = Me.ThisBookName
+
+    ' HightLight Current and Whitize others
+    AdamReader.HighLightSelected()
+  End Function
+
+  Private Sub BookItem_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+    Me.BookName.Text = Me.ThisBookName
+  End Sub
+
+  Private Async Sub BookName_Click(sender As Object, e As EventArgs) Handles BookName.Click, MyBase.Click
+    Await PickOneBookItem()
   End Sub
 
   Private Async Sub RemoveBtn_Click(sender As Object, e As EventArgs) Handles RemoveBtn.Click
     Dim message As String = "Do you want to delete this book?"
     Dim caption As String = "Remove Book"
-    Dim result As DialogResult = MessageBox.Show(message, caption, MessageBoxButtons.YesNoCancel)
+    Dim result As DialogResult = MessageBox.Show(message, caption, MessageBoxButtons.YesNo)
     If result = DialogResult.Yes Then
       ' Get Full Path of Book File
       Dim currentPath As String = Environment.CurrentDirectory
@@ -66,7 +70,10 @@
       ' Refresh BookList
       AdamReader.BarContent.Controls.Clear()
       AdamReader.RefreshBookList()
-      AdamReader.TextBox.Text = ""
+      If AdamReader.CurrentID = Me.Id Then
+        AdamReader.TextBox.Hide()
+        AdamReader.DragHerePic.Show()
+      End If
     End If
   End Sub
 End Class

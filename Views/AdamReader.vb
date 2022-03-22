@@ -2,6 +2,7 @@
   Public Property DB As Database
   Public Property CurrentID As Integer = 0
   Public Property CurrentBookName As String = ""
+  Public Property JustImportedBookName As String = ""
 
   Dim textBoxfontSize As Single = Settings.DefaultFontSize
   Dim sidebarStatus As String = "booklist"
@@ -138,7 +139,6 @@
     End If
   End Sub
 
-
   Public Sub Zoom(direction As String)
     Dim currentCursor As Integer = Me.TextBox.SelectionStart
     Me.TextBox.SelectAll()
@@ -152,54 +152,81 @@
     Me.TextBox.Select(currentCursor, 1)
   End Sub
 
-  Private Async Function ImportBook(Optional name As String = "", Optional filename As String = "") As Task
+  Private Async Function ImportBook(Optional name As String = "", Optional filename As String = "") As Task(Of Boolean)
+    Dim IsCancelBtnClicked As Boolean = False
 
     If name = "" Then
       ' Pompt to ask the name of book and pick its file
       Dim dialogResult As DialogResult = InputBookNameDialog.ShowDialog()
+      InputBookNameDialog.Focus()
       If dialogResult = DialogResult.OK Then
         name = InputBookNameDialog.BookName
+      Else
+        IsCancelBtnClicked = True
       End If
       InputBookNameDialog.Hide()
       InputBookNameDialog.Dispose()
     End If
-
-    If filename = "" Then
-      filename = PickFile("txt files (*.txt)|*.txt|All files (*.*)|*.*")
-    End If
-
-    If filename <> "NO" Then
-      ' Show Prograss Bar
-      PrograssBar.Prograss.Maximum = 3
-      PrograssBar.Prograss.Minimum = 0
-      PrograssBar.Prograss.Value = 0
-      PrograssBar.Show()
-
-      ' Read file content to a String
-      Dim importedBook As New BookFile(filename)
-      Dim content As String = Await importedBook.Read()
-      PrograssBar.Prograss.Increment(1)
-
-      ' Copy to local directory
-      importedBook.BookContent = content
-      importedBook.BookName = name
-      Await importedBook.Write()
-      PrograssBar.Prograss.Increment(1)
-
-      ' Write to database about bookname
-      Dim booksWithSameNameInDB As Integer = Await DB.Count("Books", "BookName", name)
-      If booksWithSameNameInDB = 0 Then
-        Dim freshBook As New Book(name)
-        Await freshBook.Save()
+    If IsCancelBtnClicked = False Then
+      If Await BookList.Has(name) Then
+        ShowMessage("The book with same name exists")
+        Return False
       End If
-      PrograssBar.Prograss.Increment(1)
 
-      ' Hide Prograss Bar and Switch to booklist in Sidebar
-      SwitchSideBar("booklist")
-      PrograssBar.Hide()
+      If filename = "" Then
+        filename = PickFile("txt files (*.txt)|*.txt|All files (*.*)|*.*")
+      End If
+      If BookFile.Has(name) Then
+        ShowMessage("The file already exists in books folder")
+        Return False
+      End If
+
+      If filename <> "NO" Then
+        ' Show Prograss Bar
+        PrograssBar.Prograss.Maximum = 3
+        PrograssBar.Prograss.Minimum = 0
+        PrograssBar.Prograss.Value = 0
+        PrograssBar.Show()
+
+        ' Read file content to a String
+        Dim importedBook As New BookFile(filename)
+        Dim content As String = Await importedBook.Read()
+        PrograssBar.Prograss.Increment(1)
+
+        ' Copy to local directory
+        importedBook.BookContent = content
+        importedBook.BookName = name
+        Await importedBook.Write()
+        PrograssBar.Prograss.Increment(1)
+
+        ' Write to database about bookname
+        Dim booksWithSameNameInDB As Integer = Await DB.Count("Books", "BookName", name)
+        If booksWithSameNameInDB = 0 Then
+          Dim freshBook As New Book(name)
+          Await freshBook.Save()
+        End If
+        PrograssBar.Prograss.Increment(1)
+
+        ' Hide Prograss Bar and Switch to booklist in Sidebar
+        SwitchSideBar("booklist")
+        JustImportedBookName = name
+        PrograssBar.Hide()
+      End If
+      InputBookNameDialog.Dispose()
+      PrograssBar.Dispose()
+
+      Return True
+    Else
+      Return False
     End If
-    InputBookNameDialog.Dispose()
-    PrograssBar.Dispose()
+  End Function
+
+  Private Async Function PerformClickOnJustImportedBookItemAsync() As Task
+    For Each thisBookItem As BookItem In Me.BarContent.Controls
+      If thisBookItem.ThisBookName = JustImportedBookName Then
+        Await thisBookItem.PickOneBookItem()
+      End If
+    Next
   End Function
 
   Private Sub AdamReader_Load(sender As Object, e As EventArgs) Handles MyBase.Load
@@ -238,7 +265,10 @@
 
   Private Async Sub ImportBookBtn_Click(sender As Object, e As EventArgs) Handles ImportBookBtn.Click
     Try
-      Await ImportBook()
+      If Await ImportBook() Then
+        SwitchSideBar("booklist")
+        Await PerformClickOnJustImportedBookItemAsync()
+      End If
     Catch ex As Exception
       ShowMessage(ex.Message)
     End Try
@@ -276,7 +306,7 @@
       Dim mark As Integer = Me.TextBox.SelectionStart
 
       ' Update it to database
-      Dim newBookMark As New BookMark(Me.CurrentID, mark)
+      Dim newBookMark As New BookMark(CurrentID, mark)
       Await newBookMark.Save()
 
       ShowMessage("BookMark Updated")
@@ -444,7 +474,7 @@
         If IO.File.Exists("dictionary.dat") Then
           fileReader = New IO.StreamReader("dictionary.dat")
         Else
-          Dim csvWordFile As String = PickFile("csv files (*.csv)|*.csv|All files (*.*)|*.*")
+          Dim csvWordFile As String = PickFile("dat files (*.dat)|*.dat|All files (*.*)|*.*")
           fileReader = New IO.StreamReader(csvWordFile)
         End If
         Dim data As New List(Of String)
@@ -518,7 +548,10 @@
       Dim file As String = files(0)
       file = file.ToLower()
       If file.EndsWith(".txt") Then
-        Await ImportBook(, file)
+        If Await ImportBook(, file) Then
+          SwitchSideBar("booklist")
+          Await PerformClickOnJustImportedBookItemAsync()
+        End If
       Else
         ShowMessage("This is not a text file")
       End If

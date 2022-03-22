@@ -1,7 +1,4 @@
-﻿Imports System.Collections.Generic
-Imports System.Threading.Tasks
-
-Public Class BookFile
+﻿Public Class BookFile
   Property BookPath As String
   Property BookContent As String = ""
   Property BookName As String = ""
@@ -9,6 +6,15 @@ Public Class BookFile
   Sub New(bookLocation As String)
     Me.BookPath = bookLocation
   End Sub
+
+  Public Shared Function Has(file As String) As Boolean
+    Dim filepath As String = GetBookFilePath(file)
+    If IO.File.Exists(filepath) Then
+      Return True
+    Else
+      Return False
+    End If
+  End Function
 
   Public Shared Function GetBookFilePath(thisBookFile As String) As String
     Dim currentPath = Environment.CurrentDirectory

@@ -21,4 +21,13 @@
     Return Await DB.Remove("Books", id)
   End Function
 
+  Public Shared Async Function Has(bookname As String) As Task(Of Boolean)
+    Dim DB As Database = AdamReader.DB
+    Dim count As Integer = Await DB.Count("Books", "BookName", bookname)
+    If count > 0 Then
+      Return True
+    Else
+      Return False
+    End If
+  End Function
 End Class
