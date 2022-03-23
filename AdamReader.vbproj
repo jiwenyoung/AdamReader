@@ -11,6 +11,7 @@
 
   <ItemGroup>
     <Import Include="AdamReader" />
+    <Import Include="AdamReader.My" />
     <Import Include="System.Data" />
     <Import Include="System.Drawing" />
     <Import Include="System.Windows.Forms" />
@@ -26,6 +27,12 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="My Project\Resources.resx">
+      <CustomToolNamespace>AdamReader.Resource</CustomToolNamespace>
+    </EmbeddedResource>
   </ItemGroup>
 
   <ItemGroup>

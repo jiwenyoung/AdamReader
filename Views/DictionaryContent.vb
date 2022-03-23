@@ -8,7 +8,7 @@
     If result = DialogResult.OK Then
       definition = InputWordDefinitionDialog.DefinitionInputBox.Text.Trim()
       Await Dictionary.Modify(word, definition)
-      AdamReader.ShowMessage("Dictionary has been modified")
+      AdamReader.ShowNotice(Language.NoticeDictionaryModified)
     End If
     InputWordDefinitionDialog.DefinitionInputBox.Text = ""
   End Sub

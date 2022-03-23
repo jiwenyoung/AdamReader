@@ -1,7 +1,7 @@
 ﻿Public Class InputBookNameDialog
   Public Property BookName As String
 
-  Private Sub BookNameInputBoxOKBtn_Click(sender As Object, e As EventArgs) Handles BookNameInputBoxOKBtn.Click
+  Private Sub OKBtn_Click(sender As Object, e As EventArgs) Handles OKBtn.Click
     Dim name As String = Me.BookNameInputBox.Text
     If name = "" Then
       Me.BookNameInputBox.Select()

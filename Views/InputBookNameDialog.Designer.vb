@@ -26,8 +26,8 @@ Partial Class InputBookNameDialog
         Me.BookNamePrompt = New System.Windows.Forms.Label()
         Me.BookNameInputBox = New System.Windows.Forms.TextBox()
         Me.BookNameInputBoxUnderLine = New System.Windows.Forms.Panel()
-        Me.BookNameInputBoxOKBtn = New System.Windows.Forms.Button()
-        Me.Button1 = New System.Windows.Forms.Button()
+        Me.OKBtn = New System.Windows.Forms.Button()
+        Me.CancelBtn = New System.Windows.Forms.Button()
         Me.SuspendLayout()
         '
         'BookNamePrompt
@@ -37,9 +37,9 @@ Partial Class InputBookNameDialog
         Me.BookNamePrompt.ForeColor = System.Drawing.Color.White
         Me.BookNamePrompt.Location = New System.Drawing.Point(37, 25)
         Me.BookNamePrompt.Name = "BookNamePrompt"
-        Me.BookNamePrompt.Size = New System.Drawing.Size(179, 21)
+        Me.BookNamePrompt.Size = New System.Drawing.Size(91, 21)
         Me.BookNamePrompt.TabIndex = 0
-        Me.BookNamePrompt.Text = "Please Input Book Name"
+        Me.BookNamePrompt.Text = "Book Name"
         '
         'BookNameInputBox
         '
@@ -60,35 +60,35 @@ Partial Class InputBookNameDialog
         Me.BookNameInputBoxUnderLine.Size = New System.Drawing.Size(309, 2)
         Me.BookNameInputBoxUnderLine.TabIndex = 2
         '
-        'BookNameInputBoxOKBtn
+        'OKBtn
         '
-        Me.BookNameInputBoxOKBtn.BackColor = System.Drawing.Color.FromArgb(CType(CType(83, Byte), Integer), CType(CType(82, Byte), Integer), CType(CType(237, Byte), Integer))
-        Me.BookNameInputBoxOKBtn.Cursor = System.Windows.Forms.Cursors.Hand
-        Me.BookNameInputBoxOKBtn.DialogResult = System.Windows.Forms.DialogResult.OK
-        Me.BookNameInputBoxOKBtn.FlatAppearance.BorderSize = 0
-        Me.BookNameInputBoxOKBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.BookNameInputBoxOKBtn.ForeColor = System.Drawing.Color.White
-        Me.BookNameInputBoxOKBtn.Location = New System.Drawing.Point(264, 100)
-        Me.BookNameInputBoxOKBtn.Name = "BookNameInputBoxOKBtn"
-        Me.BookNameInputBoxOKBtn.Size = New System.Drawing.Size(80, 35)
-        Me.BookNameInputBoxOKBtn.TabIndex = 3
-        Me.BookNameInputBoxOKBtn.Text = "Confirmed"
-        Me.BookNameInputBoxOKBtn.UseVisualStyleBackColor = False
+        Me.OKBtn.BackColor = System.Drawing.Color.FromArgb(CType(CType(83, Byte), Integer), CType(CType(82, Byte), Integer), CType(CType(237, Byte), Integer))
+        Me.OKBtn.Cursor = System.Windows.Forms.Cursors.Hand
+        Me.OKBtn.DialogResult = System.Windows.Forms.DialogResult.OK
+        Me.OKBtn.FlatAppearance.BorderSize = 0
+        Me.OKBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.OKBtn.ForeColor = System.Drawing.Color.White
+        Me.OKBtn.Location = New System.Drawing.Point(264, 100)
+        Me.OKBtn.Name = "OKBtn"
+        Me.OKBtn.Size = New System.Drawing.Size(80, 35)
+        Me.OKBtn.TabIndex = 3
+        Me.OKBtn.Text = "Confirmed"
+        Me.OKBtn.UseVisualStyleBackColor = False
         '
-        'Button1
+        'CancelBtn
         '
-        Me.Button1.BackColor = System.Drawing.Color.FromArgb(CType(CType(224, Byte), Integer), CType(CType(224, Byte), Integer), CType(CType(224, Byte), Integer))
-        Me.Button1.Cursor = System.Windows.Forms.Cursors.Hand
-        Me.Button1.DialogResult = System.Windows.Forms.DialogResult.Cancel
-        Me.Button1.FlatAppearance.BorderSize = 0
-        Me.Button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.Button1.ForeColor = System.Drawing.Color.Black
-        Me.Button1.Location = New System.Drawing.Point(178, 100)
-        Me.Button1.Name = "Button1"
-        Me.Button1.Size = New System.Drawing.Size(80, 35)
-        Me.Button1.TabIndex = 4
-        Me.Button1.Text = "Cancel"
-        Me.Button1.UseVisualStyleBackColor = False
+        Me.CancelBtn.BackColor = System.Drawing.Color.FromArgb(CType(CType(224, Byte), Integer), CType(CType(224, Byte), Integer), CType(CType(224, Byte), Integer))
+        Me.CancelBtn.Cursor = System.Windows.Forms.Cursors.Hand
+        Me.CancelBtn.DialogResult = System.Windows.Forms.DialogResult.Cancel
+        Me.CancelBtn.FlatAppearance.BorderSize = 0
+        Me.CancelBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.CancelBtn.ForeColor = System.Drawing.Color.Black
+        Me.CancelBtn.Location = New System.Drawing.Point(178, 100)
+        Me.CancelBtn.Name = "CancelBtn"
+        Me.CancelBtn.Size = New System.Drawing.Size(80, 35)
+        Me.CancelBtn.TabIndex = 4
+        Me.CancelBtn.Text = "Cancel"
+        Me.CancelBtn.UseVisualStyleBackColor = False
         '
         'InputBookNameDialog
         '
@@ -97,8 +97,8 @@ Partial Class InputBookNameDialog
         Me.BackColor = System.Drawing.Color.FromArgb(CType(CType(47, Byte), Integer), CType(CType(53, Byte), Integer), CType(CType(66, Byte), Integer))
         Me.ClientSize = New System.Drawing.Size(384, 161)
         Me.ControlBox = False
-        Me.Controls.Add(Me.Button1)
-        Me.Controls.Add(Me.BookNameInputBoxOKBtn)
+        Me.Controls.Add(Me.CancelBtn)
+        Me.Controls.Add(Me.OKBtn)
         Me.Controls.Add(Me.BookNameInputBoxUnderLine)
         Me.Controls.Add(Me.BookNameInputBox)
         Me.Controls.Add(Me.BookNamePrompt)
@@ -116,6 +116,6 @@ Partial Class InputBookNameDialog
     Friend WithEvents BookNamePrompt As Label
     Friend WithEvents BookNameInputBox As TextBox
     Friend WithEvents BookNameInputBoxUnderLine As Panel
-    Friend WithEvents BookNameInputBoxOKBtn As Button
-    Friend WithEvents Button1 As Button
+    Friend WithEvents OKBtn As Button
+    Friend WithEvents CancelBtn As Button
 End Class

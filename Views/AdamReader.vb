@@ -3,6 +3,7 @@
   Public Property CurrentID As Integer = 0
   Public Property CurrentBookName As String = ""
   Public Property JustImportedBookName As String = ""
+  Public Property Mode As String = "Book"
 
   Dim textBoxfontSize As Single = Settings.DefaultFontSize
   Dim sidebarStatus As String = "booklist"
@@ -35,18 +36,39 @@
     Me.ZoomOutBtn.FlatAppearance.MouseOverBackColor = Settings.PrimaryColor
     Me.ZoomOutBtn.FlatAppearance.MouseDownBackColor = Settings.PrimaryColor
 
-    InputBookNameDialog.BookNameInputBoxOKBtn.BackColor = Settings.PrimaryColor
+    InputBookNameDialog.OKBtn.BackColor = Settings.PrimaryColor
     InputBookNameDialog.BookNameInputBoxUnderLine.BackColor = Settings.PrimaryColor
     InputWordDefinitionDialog.OKBtn.BackColor = Settings.PrimaryColor
     InputWordDefinitionDialog.DefinitionInputBoxUnderline.BackColor = Settings.PrimaryColor
   End Sub
 
-  Private Shared Function PickFile(filter As String)
+  Private Sub SetLanguage()
+    If Language.IsEnglish() = True Then
+      Language.SetLanguageOfEN()
+      Me.DragHerePic.Image = My.Resources.dragen
+    Else
+      Language.SetLanguageOfCN()
+      Me.DragHerePic.Image = My.Resources.dragcn
+    End If
+    Me.ImportBookBtn.Text = Language.TextImportButton
+    DictionaryContent.ChinieseLabel.Text = Language.TextDictionaryPanelPrompt
+    InputBookNameDialog.BookNamePrompt.Text = Language.TextBookNamePrompt
+    InputBookNameDialog.OKBtn.Text = Language.TextBtnConfirmed
+    InputBookNameDialog.CancelBtn.Text = Language.TextBtnCancel
+    InputWordDefinitionDialog.PromptText.Text = Language.TextDefinitionModifyPrompt
+    InputWordDefinitionDialog.OKBtn.Text = Language.TextBtnConfirmed
+    InputWordDefinitionDialog.CancelBtn.Text = Language.TextBtnCancel
+    PrograssBar.Text = Language.TextPrograssBarPrompt
+  End Sub
+
+  Private Shared Function PickFile(Optional filter As String = "")
     Dim filename As String
     Dim filePicker As New OpenFileDialog With {
-      .Filter = filter,
       .RestoreDirectory = True
     }
+    If filter <> "" Then
+      filePicker.Filter = filter
+    End If
     If filePicker.ShowDialog() = DialogResult.OK Then
       filename = filePicker.FileName
       filePicker.Dispose()
@@ -57,7 +79,8 @@
     End If
   End Function
 
-  Public Async Sub ShowMessage(notice As String)
+  Public Async Sub ShowNotice(notice As String)
+    Me.Message.BringToFront()
     Me.MessageText.Text = notice
     Dim x As Integer = (Me.Message.Width - Me.MessageText.Width) / 2
     Dim y As Integer = (Me.Message.Height - Me.MessageText.Height) / 2
@@ -106,7 +129,7 @@
     Dim bookCollection As List(Of BookEntry) = Await BookList.GetList()
 
     For Each bookEntry As BookEntry In bookCollection
-      Dim id As Integer = Integer.Parse(bookEntry.id)
+      Dim id As Integer = Integer.Parse(bookEntry.Id)
       Dim name As String = bookEntry.BookName
       Dim bookItem As New BookItem(id, name) With {
         .Width = BarContent.Width - 26,
@@ -169,7 +192,7 @@
     End If
     If IsCancelBtnClicked = False Then
       If Await BookList.Has(name) Then
-        ShowMessage("The book with same name exists")
+        ShowNotice(Language.NoticeSameBookName)
         Return False
       End If
 
@@ -177,7 +200,7 @@
         filename = PickFile("txt files (*.txt)|*.txt|All files (*.*)|*.*")
       End If
       If BookFile.Has(name) Then
-        ShowMessage("The file already exists in books folder")
+        ShowNotice(Language.NoticeSameBookFile)
         Return False
       End If
 
@@ -208,9 +231,11 @@
         PrograssBar.Prograss.Increment(1)
 
         ' Hide Prograss Bar and Switch to booklist in Sidebar
+        SwitchMode("Book")
         SwitchSideBar("booklist")
         JustImportedBookName = name
         PrograssBar.Hide()
+        Await PerformClickOnJustImportedBookItem()
       End If
       InputBookNameDialog.Dispose()
       PrograssBar.Dispose()
@@ -221,13 +246,75 @@
     End If
   End Function
 
-  Private Async Function PerformClickOnJustImportedBookItemAsync() As Task
+  Private Async Function PerformClickOnJustImportedBookItem() As Task
     For Each thisBookItem As BookItem In Me.BarContent.Controls
       If thisBookItem.ThisBookName = JustImportedBookName Then
         Await thisBookItem.PickOneBookItem()
       End If
     Next
   End Function
+
+  Private Async Function ImportEssay(EssayPath As String) As Task(Of Boolean)
+    Dim Content As String = Await Essay.Read(EssayPath)
+    If Content <> "" Then
+      SwitchMode("Essay")
+      Me.EssayModePathBox.Text = IO.Path.GetFileName(EssayPath)
+      Me.TextBox.Text = Content
+      Me.DragHerePic.Hide()
+      Me.TextBox.Show()
+      SwitchSideBar("dictionary")
+      Return True
+    Else
+      Return False
+    End If
+  End Function
+
+  Public Sub SwitchMode(mode As String, Optional IsStartUp As Boolean = False)
+    Dim moveBtnGroup = Sub(direction As String)
+                         Dim howmuch As Integer
+                         If direction = "right" Then
+                           howmuch = 50
+                         ElseIf direction = "left" Then
+                           howmuch = -50
+                         End If
+                         Me.resetBtn.Location = New Point(
+                            Me.resetBtn.Location.X + howmuch,
+                            Me.resetBtn.Location.Y
+                         )
+                         Me.ZoomInBtn.Location = New Point(
+                            Me.ZoomInBtn.Location.X + howmuch,
+                            Me.resetBtn.Location.Y
+                         )
+                         Me.ZoomOutBtn.Location = New Point(
+                            Me.ZoomOutBtn.Location.X + howmuch,
+                            Me.ZoomOutBtn.Location.Y
+                         )
+                         Me.DictionaryBuildBtn.Location = New Point(
+                            Me.DictionaryBuildBtn.Location.X + howmuch,
+                            Me.DictionaryBuildBtn.Location.Y
+                         )
+                       End Sub
+
+    If mode = "Essay" Then
+      Me.markBtn.Hide()
+      If Me.Mode <> "Essay" Then
+        moveBtnGroup("right")
+      End If
+      Me.BookNameTextBox.Hide()
+      Me.EssayModePathBox.Show()
+      Me.Mode = "Essay"
+      ShowNotice(Language.NoticeEnterEssayMode)
+    ElseIf mode = "Book" Then
+      Me.EssayModePathBox.Hide()
+      If IsStartUp <> True And Me.Mode <> "Book" Then
+        moveBtnGroup("left")
+      End If
+      Me.markBtn.Show()
+      Me.BookNameTextBox.Show()
+      Me.Mode = "Book"
+      ShowNotice(Language.NoticeEnterBookMode)
+    End If
+  End Sub
 
   Private Sub AdamReader_Load(sender As Object, e As EventArgs) Handles MyBase.Load
     DB = New Database()
@@ -245,13 +332,15 @@
     Me.DragHerePic.Location = New Point(x, y)
     Me.Message.BringToFront()
     SetColor()
+    SetLanguage()
+    SwitchMode("Book", True)
   End Sub
 
   Private Sub DictionaryBtn_Click(sender As Object, e As EventArgs) Handles DictionaryBtn.Click
     Try
       SwitchSideBar("dictionary")
     Catch ex As Exception
-      ShowMessage(ex.Message)
+      ShowNotice(ex.Message)
     End Try
   End Sub
 
@@ -259,18 +348,15 @@
     Try
       SwitchSideBar("booklist")
     Catch ex As Exception
-      ShowMessage(ex.Message)
+      ShowNotice(ex.Message)
     End Try
   End Sub
 
   Private Async Sub ImportBookBtn_Click(sender As Object, e As EventArgs) Handles ImportBookBtn.Click
     Try
-      If Await ImportBook() Then
-        SwitchSideBar("booklist")
-        Await PerformClickOnJustImportedBookItemAsync()
-      End If
+      Await ImportBook()
     Catch ex As Exception
-      ShowMessage(ex.Message)
+      ShowNotice(ex.Message)
     End Try
   End Sub
 
@@ -279,7 +365,7 @@
       DictionaryContent.Width = Me.BarContent.Width - 28
       DictionaryContent.Height = Me.BarContent.Height - 28
     Catch ex As Exception
-      ShowMessage(ex.Message)
+      ShowNotice(ex.Message)
     End Try
   End Sub
 
@@ -287,7 +373,7 @@
     Try
       Me.ImportBookBtn.FlatAppearance.BorderSize = 0
     Catch ex As Exception
-      ShowMessage(ex.Message)
+      ShowNotice(ex.Message)
     End Try
   End Sub
 
@@ -309,15 +395,16 @@
       Dim newBookMark As New BookMark(CurrentID, mark)
       Await newBookMark.Save()
 
-      ShowMessage("BookMark Updated")
+      ShowNotice(Language.NoticeBookMarkUpdated)
     Catch ex As Exception
-      ShowMessage(ex.Message)
+      ShowNotice(ex.Message)
     End Try
   End Sub
 
   Private Async Sub TextBox_Click(sender As Object, e As MouseEventArgs) Handles TextBox.Click
     Try
       Dim selectedWord As String = ""
+      Dim isEnglish As Boolean = True
 
       ' Sidebar open dictionary panel
       Me.DictionaryBtn.PerformClick()
@@ -329,16 +416,14 @@
                              Dim word As New List(Of Char) From {
                                content.Chars(charIndex)
                              }
-                             Dim symbols As Char() = {
-                                  " ", "!", "?", ".", "[", "]", "<", ">", "&", "@", "$",
-                                  ",", ";", "-", "(", ")", "{", "}", "#", "*", "%", ":", "\r", "\n",
-                                  Chr(13), Chr(10), Chr(13) + Chr(10),
-                                  Chr(34), Chr(39), Environment.NewLine
-                               }
+                             Dim symbols As Char()
+                             Dim letters As String = "abcdefghijklmnopqrstuvwxyz"
+                             letters += letters.ToUpper()
+                             symbols = letters.ToCharArray()
 
-                             If symbols.Contains(content.Chars(charIndex)) = False Then
+                             If symbols.Contains(content.Chars(charIndex)) Then
                                Dim index As Integer = charIndex - 1
-                               While symbols.Contains(content.Chars(index)) = False
+                               While symbols.Contains(content.Chars(index))
                                  Dim myChar = content.Chars(index)
                                  word.Insert(0, myChar)
                                  If index <> 0 Then
@@ -349,11 +434,13 @@
                                End While
 
                                index = charIndex + 1
-                               While symbols.Contains(content.Chars(index)) = False
+                               While symbols.Contains(content.Chars(index))
                                  Dim myChar = content.Chars(index)
                                  word.Add(content.Chars(index))
                                  index += 1
                                End While
+                             Else
+                               isEnglish = False
                              End If
 
                              Dim charStr As String = ""
@@ -373,7 +460,7 @@
       ' Get the word defination 
       Dim definition As String = ""
       selectedWord = selectedWord.Trim()
-      If selectedWord <> "" And IsNumeric(selectedWord) = False Then
+      If selectedWord <> "" And isEnglish = True Then
         definition = Await Dictionary.GetDefinitionFromDB(selectedWord)
 
         If definition = "" Then
@@ -387,29 +474,31 @@
             ' Write the defination into database
             If Await Dictionary.Has(selectedWord) Then
               If Await Dictionary.Modify(selectedWord, definition) Then
-                ShowMessage("New word has been modified")
+                ShowNotice(Language.NoticeWordModified)
               End If
             Else
               If Await Dictionary.Add(selectedWord, definition) Then
-                ShowMessage("New word has been added")
+                ShowNotice(Language.NoticeNewWordAdded)
               End If
             End If
           End If
         End If
 
         ' Update Dictionary Sidebar
-        DictionaryContent.ChinieseLabel.Text = selectedWord
-        DictionaryContent.ChinieseText.Text = definition
+        If isEnglish Then
+          DictionaryContent.ChinieseLabel.Text = selectedWord
+          DictionaryContent.ChinieseText.Text = definition
+        End If
       End If
     Catch ex As Exception
-      ShowMessage(ex.Message)
+      ShowNotice(ex.Message)
     End Try
   End Sub
 
   Private Sub ResetBtn_Click(sender As Object, e As EventArgs) Handles resetBtn.Click
     Try
-      Dim message As String = "Do you want to reset this application?"
-      Dim caption As String = "RESET"
+      Dim message As String = Language.TextResetAppMessage
+      Dim caption As String = Language.TextResetAppPrompt
       Dim result As DialogResult = MessageBox.Show(message, caption, MessageBoxButtons.YesNo)
       If result = DialogResult.Yes Then
         BookFile.Destroy()
@@ -417,7 +506,7 @@
         Application.Exit()
       End If
     Catch ex As Exception
-      ShowMessage(ex.Message)
+      ShowNotice(ex.Message)
     End Try
   End Sub
 
@@ -429,12 +518,12 @@
         Me.BookNameTextBox.Text = modifiedName
         CurrentBookName = modifiedName
         SwitchSideBar("booklist")
-        ShowMessage("Book name has been modified")
+        ShowNotice(Language.NoticeBookNameModified)
       Else
         Me.BookNameTextBox.Text = CurrentBookName
       End If
     Catch ex As Exception
-      ShowMessage(ex.Message)
+      ShowNotice(ex.Message)
     End Try
   End Sub
 
@@ -446,7 +535,7 @@
         End If
       End If
     Catch ex As Exception
-      ShowMessage(ex.Message)
+      ShowNotice(ex.Message)
     End Try
   End Sub
 
@@ -454,7 +543,7 @@
     Try
       Zoom("in")
     Catch ex As Exception
-      ShowMessage(ex.Message)
+      ShowNotice(ex.Message)
     End Try
   End Sub
 
@@ -462,7 +551,7 @@
     Try
       Zoom("out")
     Catch ex As Exception
-      ShowMessage(ex.Message)
+      ShowNotice(ex.Message)
     End Try
   End Sub
 
@@ -518,14 +607,14 @@
         Await DB.Fill("Words", data, callback)
         PrograssBar.Hide()
         PrograssBar.Dispose()
-        ShowMessage("Dictionary Database has been created")
+        ShowNotice(Language.NoticeDBCreated)
 
         Application.Restart()
       Else
-        ShowMessage("Dictionary Database is OK")
+        ShowNotice(Language.NoticeDBOK)
       End If
     Catch ex As Exception
-      ShowMessage(ex.Message)
+      ShowNotice(ex.Message)
     End Try
   End Sub
 
@@ -538,7 +627,7 @@
         Zoom("out")
       End If
     Catch ex As Exception
-      ShowMessage(ex.Message)
+      ShowNotice(ex.Message)
     End Try
   End Sub
 
@@ -547,16 +636,9 @@
     If files.Length = 1 Then
       Dim file As String = files(0)
       file = file.ToLower()
-      If file.EndsWith(".txt") Then
-        If Await ImportBook(, file) Then
-          SwitchSideBar("booklist")
-          Await PerformClickOnJustImportedBookItemAsync()
-        End If
-      Else
-        ShowMessage("This is not a text file")
-      End If
+      Await ImportEssay(file)
     Else
-      ShowMessage("Only one file can be droped here")
+      ShowNotice(Language.NoticeOnlyOneFileDropable)
     End If
   End Sub
 

@@ -26,7 +26,7 @@ Partial Class InputWordDefinitionDialog
         Me.PromptText = New System.Windows.Forms.Label()
         Me.DefinitionInputBox = New System.Windows.Forms.TextBox()
         Me.OKBtn = New System.Windows.Forms.Button()
-        Me.Button2 = New System.Windows.Forms.Button()
+        Me.CancelBtn = New System.Windows.Forms.Button()
         Me.DefinitionInputBoxUnderline = New System.Windows.Forms.Panel()
         Me.SelectedWord = New System.Windows.Forms.Label()
         Me.PictureBox1 = New System.Windows.Forms.PictureBox()
@@ -68,20 +68,20 @@ Partial Class InputWordDefinitionDialog
         Me.OKBtn.Text = "Confirm"
         Me.OKBtn.UseVisualStyleBackColor = False
         '
-        'Button2
+        'CancelBtn
         '
-        Me.Button2.BackColor = System.Drawing.Color.FromArgb(CType(CType(164, Byte), Integer), CType(CType(176, Byte), Integer), CType(CType(190, Byte), Integer))
-        Me.Button2.Cursor = System.Windows.Forms.Cursors.Hand
-        Me.Button2.DialogResult = System.Windows.Forms.DialogResult.Cancel
-        Me.Button2.FlatAppearance.BorderSize = 0
-        Me.Button2.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.Button2.ForeColor = System.Drawing.Color.DimGray
-        Me.Button2.Location = New System.Drawing.Point(328, 138)
-        Me.Button2.Name = "Button2"
-        Me.Button2.Size = New System.Drawing.Size(100, 30)
-        Me.Button2.TabIndex = 6
-        Me.Button2.Text = "Cancel"
-        Me.Button2.UseVisualStyleBackColor = False
+        Me.CancelBtn.BackColor = System.Drawing.Color.FromArgb(CType(CType(164, Byte), Integer), CType(CType(176, Byte), Integer), CType(CType(190, Byte), Integer))
+        Me.CancelBtn.Cursor = System.Windows.Forms.Cursors.Hand
+        Me.CancelBtn.DialogResult = System.Windows.Forms.DialogResult.Cancel
+        Me.CancelBtn.FlatAppearance.BorderSize = 0
+        Me.CancelBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.CancelBtn.ForeColor = System.Drawing.Color.DimGray
+        Me.CancelBtn.Location = New System.Drawing.Point(328, 138)
+        Me.CancelBtn.Name = "CancelBtn"
+        Me.CancelBtn.Size = New System.Drawing.Size(100, 30)
+        Me.CancelBtn.TabIndex = 6
+        Me.CancelBtn.Text = "Cancel"
+        Me.CancelBtn.UseVisualStyleBackColor = False
         '
         'DefinitionInputBoxUnderline
         '
@@ -120,7 +120,7 @@ Partial Class InputWordDefinitionDialog
         Me.Controls.Add(Me.PictureBox1)
         Me.Controls.Add(Me.SelectedWord)
         Me.Controls.Add(Me.DefinitionInputBoxUnderline)
-        Me.Controls.Add(Me.Button2)
+        Me.Controls.Add(Me.CancelBtn)
         Me.Controls.Add(Me.OKBtn)
         Me.Controls.Add(Me.DefinitionInputBox)
         Me.Controls.Add(Me.PromptText)
@@ -139,7 +139,7 @@ Partial Class InputWordDefinitionDialog
     Friend WithEvents PromptText As Label
     Friend WithEvents DefinitionInputBox As TextBox
     Friend WithEvents OKBtn As Button
-    Friend WithEvents Button2 As Button
+    Friend WithEvents CancelBtn As Button
     Friend WithEvents DefinitionInputBoxUnderline As Panel
     Friend WithEvents SelectedWord As Label
     Friend WithEvents PictureBox1 As PictureBox

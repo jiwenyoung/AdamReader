@@ -46,11 +46,12 @@
 
   Private Async Sub BookName_Click(sender As Object, e As EventArgs) Handles BookName.Click, MyBase.Click
     Await PickOneBookItem()
+    AdamReader.SwitchMode("Book")
   End Sub
 
   Private Async Sub RemoveBtn_Click(sender As Object, e As EventArgs) Handles RemoveBtn.Click
-    Dim message As String = "Do you want to delete this book?"
-    Dim caption As String = "Remove Book"
+    Dim message As String = Language.TextDeleteBookMessage
+    Dim caption As String = Language.TextDeleteBookPrompt
     Dim result As DialogResult = MessageBox.Show(message, caption, MessageBoxButtons.YesNo)
     If result = DialogResult.Yes Then
       ' Get Full Path of Book File

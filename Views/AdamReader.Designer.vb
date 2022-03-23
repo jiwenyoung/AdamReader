@@ -22,29 +22,30 @@ Partial Class AdamReader
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(AdamReader))
-        Me.Bar = New System.Windows.Forms.Panel()
-        Me.BarContent = New System.Windows.Forms.FlowLayoutPanel()
-        Me.SidebarTopBtnBox = New System.Windows.Forms.Panel()
-        Me.BooksUnderLine = New System.Windows.Forms.Panel()
-        Me.DictUnderLine = New System.Windows.Forms.Panel()
-        Me.BookListBtn = New System.Windows.Forms.Button()
-        Me.DictionaryBtn = New System.Windows.Forms.Button()
-        Me.ImportBookBtn = New System.Windows.Forms.Button()
-        Me.Body = New System.Windows.Forms.Panel()
-        Me.TextContainer = New System.Windows.Forms.Panel()
-        Me.DragHerePic = New System.Windows.Forms.PictureBox()
-        Me.TextBox = New System.Windows.Forms.RichTextBox()
-        Me.Message = New System.Windows.Forms.Panel()
-        Me.MessageText = New System.Windows.Forms.Label()
-        Me.Header = New System.Windows.Forms.Panel()
-        Me.DictionaryBuildBtn = New System.Windows.Forms.Button()
-        Me.ZoomOutBtn = New System.Windows.Forms.Button()
-        Me.ZoomInBtn = New System.Windows.Forms.Button()
-        Me.BookNameTextBox = New System.Windows.Forms.TextBox()
-        Me.resetBtn = New System.Windows.Forms.Button()
-        Me.Logo = New System.Windows.Forms.PictureBox()
-        Me.markBtn = New System.Windows.Forms.Button()
+    Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(AdamReader))
+    Me.Bar = New System.Windows.Forms.Panel()
+    Me.BarContent = New System.Windows.Forms.FlowLayoutPanel()
+    Me.SidebarTopBtnBox = New System.Windows.Forms.Panel()
+    Me.BooksUnderLine = New System.Windows.Forms.Panel()
+    Me.DictUnderLine = New System.Windows.Forms.Panel()
+    Me.BookListBtn = New System.Windows.Forms.Button()
+    Me.DictionaryBtn = New System.Windows.Forms.Button()
+    Me.ImportBookBtn = New System.Windows.Forms.Button()
+    Me.Body = New System.Windows.Forms.Panel()
+    Me.TextContainer = New System.Windows.Forms.Panel()
+    Me.DragHerePic = New System.Windows.Forms.PictureBox()
+    Me.TextBox = New System.Windows.Forms.RichTextBox()
+    Me.Message = New System.Windows.Forms.Panel()
+    Me.MessageText = New System.Windows.Forms.Label()
+    Me.Header = New System.Windows.Forms.Panel()
+    Me.EssayModePathBox = New System.Windows.Forms.Label()
+    Me.DictionaryBuildBtn = New System.Windows.Forms.Button()
+    Me.ZoomOutBtn = New System.Windows.Forms.Button()
+    Me.ZoomInBtn = New System.Windows.Forms.Button()
+    Me.BookNameTextBox = New System.Windows.Forms.TextBox()
+    Me.resetBtn = New System.Windows.Forms.Button()
+    Me.Logo = New System.Windows.Forms.PictureBox()
+    Me.markBtn = New System.Windows.Forms.Button()
         Me.Bar.SuspendLayout()
         Me.SidebarTopBtnBox.SuspendLayout()
         Me.Body.SuspendLayout()
@@ -181,10 +182,9 @@ Partial Class AdamReader
         'DragHerePic
         '
         Me.DragHerePic.Anchor = System.Windows.Forms.AnchorStyles.None
-        Me.DragHerePic.Image = CType(resources.GetObject("DragHerePic.Image"), System.Drawing.Image)
-        Me.DragHerePic.Location = New System.Drawing.Point(178, 240)
-        Me.DragHerePic.Name = "DragHerePic"
-        Me.DragHerePic.Size = New System.Drawing.Size(300, 100)
+    Me.DragHerePic.Location = New System.Drawing.Point(178, 240)
+    Me.DragHerePic.Name = "DragHerePic"
+    Me.DragHerePic.Size = New System.Drawing.Size(300, 100)
         Me.DragHerePic.TabIndex = 0
         Me.DragHerePic.TabStop = False
         '
@@ -230,6 +230,7 @@ Partial Class AdamReader
         'Header
         '
         Me.Header.BackColor = System.Drawing.Color.FromArgb(CType(CType(83, Byte), Integer), CType(CType(82, Byte), Integer), CType(CType(237, Byte), Integer))
+        Me.Header.Controls.Add(Me.EssayModePathBox)
         Me.Header.Controls.Add(Me.DictionaryBuildBtn)
         Me.Header.Controls.Add(Me.ZoomOutBtn)
         Me.Header.Controls.Add(Me.ZoomInBtn)
@@ -242,6 +243,17 @@ Partial Class AdamReader
         Me.Header.Name = "Header"
         Me.Header.Size = New System.Drawing.Size(684, 50)
         Me.Header.TabIndex = 0
+        '
+        'EssayModePathBox
+        '
+        Me.EssayModePathBox.AutoSize = True
+        Me.EssayModePathBox.Font = New System.Drawing.Font("Segoe UI", 15.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point)
+        Me.EssayModePathBox.ForeColor = System.Drawing.Color.WhiteSmoke
+        Me.EssayModePathBox.Location = New System.Drawing.Point(75, 10)
+        Me.EssayModePathBox.Name = "EssayModePathBox"
+        Me.EssayModePathBox.Size = New System.Drawing.Size(73, 30)
+        Me.EssayModePathBox.TabIndex = 0
+        Me.EssayModePathBox.Text = "Label1"
         '
         'DictionaryBuildBtn
         '
@@ -398,4 +410,5 @@ Partial Class AdamReader
     Friend WithEvents DictionaryBuildBtn As Button
     Friend WithEvents TextContainer As Panel
     Friend WithEvents DragHerePic As PictureBox
+    Friend WithEvents EssayModePathBox As Label
 End Class
